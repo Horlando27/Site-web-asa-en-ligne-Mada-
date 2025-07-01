@@ -1,4 +1,81 @@
 <!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouton Service Client</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Bouton Style */
+    .service-client-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    .service-client-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, #0056b3, #003f88);
+    }
+
+    .service-client-button img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin-right: 12px;
+      border: 2px solid white;
+    }
+
+    .service-client-button span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Responsive Mobile */
+    @media (max-width: 600px) {
+      .service-client-button {
+        padding: 10px 16px;
+        right: 15px;
+        bottom: 15px;
+      }
+
+      .service-client-button img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+      }
+
+      .service-client-button span {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Atiny hafa eto ambony raha ilaina -->
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -463,3 +540,15 @@
   </script>
 </body>
   </html>
+  
+  <!-- Bouton Service Client -->
+  <a href="https://service-client-asa-en-ligne-site-we.vercel.app/"
+     class="service-client-button"
+     target="_blank"
+     title="Mifandraisa amin'ny Service Client">
+    <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="Client Icon">
+    <span>Service Client</span>
+  </a>
+
+</body>
+</html>
