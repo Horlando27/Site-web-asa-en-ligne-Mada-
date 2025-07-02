@@ -678,4 +678,258 @@ onSnapshot(q, async snapshot => {
       <div id="transaction" class="home-section">
         <h2>Transaction</h2>
        <a href="https://demande-du-retrait.vercel.app/" target="_blank">
-  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5p
+  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    RETRAIT D'ARGENT 
+  </button>
+
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase + App JS -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      updateDoc,
+      addDoc,
+      collection
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCK4HqGSjYRT2jFNhAvniSWIzhDvEb2qAQ",
+      authDomain: "asa-en-ligne.firebaseapp.com",
+      projectId: "asa-en-ligne",
+      storageBucket: "asa-en-ligne.appspot.com",
+      messagingSenderId: "58359363245",
+      appId: "1:58359363245:web:ca5969776ce9cd86aef824",
+      measurementId: "G-MRVHVWPV71"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Global variable ho an'ny hafatra admin
+    let storedAdminMessage = "";
+
+    // ----- Inscription -----
+    window.registerUser = function() {
+      const fullName = document.getElementById("full-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const confirmPassword = document.getElementById("reg-confirm-password").value;
+      if(password !== confirmPassword) {
+        alert("Les mots de passe ne correspondent pas.");
+        return;
+      }
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Enregistrer l'utilisateur sans code d'activation tant que paiement non effectué
+          setDoc(doc(db, "users", user.uid), {
+            fullName: fullName,
+            email: email,
+            paymentStatus: "not_paid",
+            createdAt: new Date()
+          })
+          .then(() => {
+            alert("Inscription réussie. Veuillez effectuer le paiement pour recevoir un code d'activation.");
+            showLoginSection();
+          })
+          .catch((error) => alert("Erreur lors de l'enregistrement : " + error.message));
+        })
+        .catch((error) => alert("Erreur : " + error.message));
+    };
+
+    // ----- Affichage des sections -----
+    window.showRegistrationSection = function() {
+      document.getElementById("registration-section").classList.remove("hidden");
+      document.getElementById("login-section").classList.add("hidden");
+      document.getElementById("final-activation-form").classList.add("hidden");
+      document.getElementById("activation-notification").classList.add("hidden");
+      document.getElementById("payment-instructions").classList.add("hidden");
+      document.getElementById("payment-proof").classList.add("hidden");
+      document.getElementById("pending-verification").classList.add("hidden");
+      document.getElementById("homepage").classList.add("hidden");
+    };
+
+    window.showLoginSection = function() {
+      document.getElementById("registration-section").classList.add("hidden");
+      document.getElementById("login-section").classList.remove("hidden");
+      document.getElementById("final-activation-form").classList.add("hidden");
+      document.getElementById("activation-notification").classList.add("hidden");
+      document.getElementById("payment-instructions").classList.add("hidden");
+      document.getElementById("payment-proof").classList.add("hidden");
+      document.getElementById("pending-verification").classList.add("hidden");
+      document.getElementById("homepage").classList.add("hidden");
+    };
+
+    // ----- Connexion initiale -----
+    window.loginUser = function() {
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if(userDoc.exists()){
+            const userData = userDoc.data();
+            if(userData.paymentStatus === "confirmed") {
+              // Afficher activation-notification avec code d'activation et notification admin éventuelle
+              document.getElementById("activation-notification").classList.remove("hidden");
+              document.getElementById("activation-code-container").innerHTML = 
+                "Voici votre nouveau code d'activation : <strong id='user-activation-code'>" + userData.activationCode + "</strong>";
+              if(userData.adminMessage) {
+                storedAdminMessage = userData.adminMessage;
+                document.getElementById("admin-notification-text").innerText = "Vous avez un message de l'admin.";
+                document.getElementById("admin-notification").classList.remove("hidden");
+              } else {
+                document.getElementById("admin-notification").classList.add("hidden");
+              }
+            } else if(userData.paymentStatus === "pending") {
+              document.getElementById("pending-verification").classList.remove("hidden");
+            } else {
+              document.getElementById("payment-instructions").classList.remove("hidden");
+            }
+          } else {
+            alert("Aucune donnée utilisateur trouvée.");
+          }
+        })
+        .catch(error => alert("Erreur : " + error.message));
+    };
+
+    window.resetPassword = function() {
+      const email = document.getElementById("login-email").value.trim();
+      if(!email) {
+        alert("Veuillez entrer votre adresse e-mail.");
+        return;
+      }
+      sendPasswordResetEmail(auth, email)
+        .then(() => alert("Email de réinitialisation envoyé !"))
+        .catch((error) => alert("Erreur : " + error.message));
+    };
+
+    // ----- Preuve de paiement -----
+    window.showPaymentProofForm = function() {
+      document.getElementById("payment-instructions").classList.add("hidden");
+      document.getElementById("payment-proof").classList.remove("hidden");
+    };
+
+    window.submitPaymentProof = async function() {
+      const proofFullName = document.getElementById("proof-fullname").value.trim();
+      const proofPhone = document.getElementById("proof-phone").value.trim();
+      const proofAmount = document.getElementById("proof-amount").value.trim();
+      if(!proofFullName || !proofPhone || !proofAmount) {
+        alert("Veuillez remplir tous les champs.");
+        return;
+      }
+      try {
+        await addDoc(collection(db, "paymentRequests"), {
+          userId: auth.currentUser.uid,
+          fullName: proofFullName,
+          phone: proofPhone,
+          amount: proofAmount,
+          timestamp: new Date().toISOString(),
+          status: "pending"
+        });
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          paymentStatus: "pending"
+        });
+        alert("Votre demande de paiement a été envoyée et est en attente de vérification.");
+        document.getElementById("payment-proof").classList.add("hidden");
+        document.getElementById("pending-verification").classList.remove("hidden");
+      } catch (error) {
+        alert("Erreur lors de l'envoi de la preuve : " + error.message);
+      }
+    };
+
+    // ----- Notification admin -----
+    window.viewAdminMessage = function() {
+      alert("Message de l'admin : " + storedAdminMessage);
+      sessionStorage.setItem("adminMessageSeen", "true");
+      document.getElementById("admin-notification").classList.add("hidden");
+    };
+
+    window.dismissAdminMessage = function() {
+      sessionStorage.setItem("adminMessageSeen", "true");
+      document.getElementById("admin-notification").classList.add("hidden");
+    };
+
+    // ----- Activation finale -----
+    window.showFinalActivationForm = function() {
+      document.getElementById("activation-notification").classList.add("hidden");
+      document.getElementById("final-activation-form").classList.remove("hidden");
+      const email = document.getElementById("login-email").value.trim();
+      document.getElementById("final-email").value = email;
+    };
+
+    window.finalLogin = function() {
+      const email = document.getElementById("final-email").value.trim();
+      const password = document.getElementById("final-password").value;
+      const activationCodeInput = document.getElementById("final-activation-code").value.trim();
+      signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if(userDoc.exists()){
+            const userData = userDoc.data();
+            if(userData.activationCode === activationCodeInput) {
+              alert("Connexion réussie !");
+              // Afeno ny formulaire rehetra ary asehoy ny page d'accueil
+              document.getElementById("registration-section").classList.add("hidden");
+              document.getElementById("login-section").classList.add("hidden");
+              document.getElementById("payment-instructions").classList.add("hidden");
+              document.getElementById("payment-proof").classList.add("hidden");
+              document.getElementById("pending-verification").classList.add("hidden");
+              document.getElementById("activation-notification").classList.add("hidden");
+              document.getElementById("final-activation-form").classList.add("hidden");
+              // Asehoy ny page d'accueil
+              document.getElementById("homepage").classList.remove("hidden");
+            } else {
+              alert("Code d'activation incorrect.");
+            }
+          } else {
+            alert("Aucune donnée utilisateur trouvée.");
+          }
+        })
+        .catch(error => alert("Erreur : " + error.message));
+    };
+
+    // ----- Navigation ao amin'ny page d'accueil -----
+    window.showSection = function(sectionId) {
+      const sections = document.querySelectorAll(".home-section");
+      sections.forEach(section => {
+        if(section.id === sectionId) {
+          section.classList.add("active");
+        } else {
+          section.classList.remove("active");
+        }
+      });
+    };
+  </script>
+</body>
+  </html>
+  
+  <!-- Bouton Service Client -->
+  <a href="https://service-client-asa-en-ligne-site-we.vercel.app/"
+     class="service-client-button"
+     target="_blank"
+     title="Mifandraisa amin'ny Service Client">
+    <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="Client Icon">
+    <span>Service Client</span>
+  </a>
+
+</body>
+</html>
