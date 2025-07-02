@@ -14,6 +14,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background color: black;
     }
 
     /* Bouton Style */
@@ -88,6 +89,7 @@
       background: #f2f2f2;
       margin: 0;
       padding: 20px;
+      background color: black ;
     }
     .container {
       max-width: 400px;
@@ -276,6 +278,386 @@
     <!-- Contenu isaky ny section -->
     <div id="homepage-content">
       <div id="asaMampiasaVola" class="home-section active">
+          
+      
+      
+      
+      
+      <!-- <!DOCTYPE html><html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <title>Asa en Ligne – Profil, Publication, Reactions & Private Chat</title>
+  
+  <style >/* --- Design Modern & Professionnel --- */
+body {
+  max-width: 700px;
+  margin: 2em auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fa;
+  color: #333;
+  padding: 0 1em;
+  background color: black ;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+button {
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+textarea,
+input[type="text"],
+input[type="url"] {
+  width: 100%;
+  padding: 0.6em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 6px 0 12px 0;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+#form-section {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  margin-bottom: 2em;
+}
+
+.post {
+  background-color: #fff;
+  padding: 1em;
+  margin-bottom: 1.5em;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+
+.post:hover {
+  transform: translateY(-3px);
+}
+
+.post p {
+  margin: 0.5em 0;
+}
+
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.reactions {
+  margin: 1em 0;
+}
+
+.emoji-btn {
+  font-size: 1.4em;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.emoji-btn:hover {
+  transform: scale(1.2);
+}
+
+.emoji-btn sub {
+  vertical-align: super;
+  font-size: 0.6em;
+  color: #444;
+  margin-left: 3px;
+}
+
+.pm-btn {
+  background: #e8f0fe;
+  color: #0366d6;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: inline-block;
+  transition: background 0.3s;
+}
+
+.pm-btn:hover {
+  background: #d0e3ff;
+}
+
+.chat-section {
+  margin-top: 1em;
+  padding: 0.8em;
+  background: #fdfdfd;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.messages {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 0.8em;
+  padding: 0.4em;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.msg-self {
+  text-align: right;
+  background-color: #dff0ff;
+  padding: 6px 10px;
+  border-radius: 12px;
+  margin: 4px 0;
+  color: #003f7f;
+}
+
+.msg-other {
+  text-align: left;
+  background-color: #eaf7e9;
+  padding: 6px 10px;
+  border-radius: 12px;
+  margin: 4px 0;
+  color: #2d672d;
+}
+
+.comments {
+  margin-top: 1em;
+}
+
+.comment {
+  background: #f6f9fc;
+  border-left: 4px solid #007BFF;
+  margin: 8px 0;
+  padding: 0.5em 0.8em;
+  border-radius: 4px;
+}
+
+.comment strong {
+  color: #222;
+}
+
+.comment small {
+  color: #777;
+  float: right;
+}
+
+textarea#comment-input {
+  margin-top: 8px;
+  border-radius: 6px;
+  resize: vertical;
+}</style>
+  <!-- Icons CDN -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      addDoc,
+      updateDoc,
+      serverTimestamp,
+      query,
+      orderBy,
+      onSnapshot,
+      getDocs,
+      increment
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCK4HqGSjYRT2jFNhAvniSWIzhDvEb2qAQ",
+  authDomain: "asa-en-ligne.firebaseapp.com",
+  projectId: "asa-en-ligne",
+  storageBucket: "asa-en-ligne.appspot.com",
+  messagingSenderId: "58359363245",
+  appId: "1:58359363245:web:ca5969776ce9cd86aef824",
+  measurementId: "G-MRVHVWPV71"
+};
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// Demo Login
+signInWithEmailAndPassword(auth, "user@example.com", "password123").catch(err => console.error(err));
+
+onAuthStateChanged(auth, user => {
+  document.getElementById('form-section').style.display = user ? 'block' : 'none';
+  document.getElementById('auth-status').textContent = user ? `Miarahaba, ${user.displayName || user.email}` : 'Tsy tafiditra';
+});
+
+// Generate consistent chatId between two users
+function getChatId(uid1, uid2) {
+  return [uid1, uid2].sort().join('_');
+}
+
+// Post publication
+window.postData = async () => {
+  const desc = document.getElementById('description').value.trim();
+  const userLink = document.getElementById('fb-link').value.trim();
+  const user = auth.currentUser;
+  if (!user || !desc || !userLink) return alert("Fenoy rehetra azafady");
+  await addDoc(collection(db,'publications'), {
+    author: user.uid,
+    authorName: user.displayName || user.email,
+    description: desc,
+    fbLink: userLink,
+    reactions: {},
+    createdAt: serverTimestamp()
+  });
+  document.getElementById('description').value = '';
+  document.getElementById('fb-link').value = '';
+};
+
+// React to post (emoji)
+window.reactPost = async (postId, emoji) => {
+  const postRef = doc(db,'publications',postId);
+  await updateDoc(postRef, { [`reactions.${emoji}`]: increment(1) });
+};
+
+// Comment on post
+window.commentOnPost = async (postId) => {
+  const text = document.getElementById(`comment-input-${postId}`).value.trim();
+  const user = auth.currentUser;
+  if (!user || !text) return;
+  await addDoc(collection(db,'publications',postId,'comments'), {
+    author: user.uid,
+    authorName: user.displayName || user.email,
+    text,
+    createdAt: serverTimestamp()
+  });
+  document.getElementById(`comment-input-${postId}`).value = '';
+};
+
+// Send private message and subscribe to chat
+window.openChat = (post) => {
+  const user = auth.currentUser;
+  if (!user) return alert('Tsy tafiditra.');
+  const chatId = getChatId(user.uid, post.author);
+  const chatSection = document.getElementById(`chat-${post.id}`);
+  chatSection.style.display = chatSection.style.display === 'none' ? 'block' : 'none';
+  if (!chatSection.dataset.subscribed) {
+    const msgsOut = chatSection.querySelector('.messages');
+    const msgsQuery = query(collection(db,'privateChats',chatId,'messages'), orderBy('createdAt','asc'));
+    onSnapshot(msgsQuery, snap => {
+      msgsOut.innerHTML = '';
+      snap.forEach(d => {
+        const m = d.data();
+        const cls = m.from === user.uid ? 'msg-self' : 'msg-other';
+        msgsOut.innerHTML += `<div class="${cls}"><strong>${m.from === user.uid ? 'You' : post.authorName}:</strong> ${m.text}</div>`;
+      });
+    });
+    chatSection.dataset.subscribed = 'true';
+  }
+  // attach send handler
+  chatSection.querySelector('button').onclick = async () => {
+    const input = chatSection.querySelector('input');
+    const txt = input.value.trim();
+    if (!txt) return;
+    await addDoc(collection(db,'privateChats',chatId,'messages'), {
+      from: user.uid,
+      text: txt,
+      createdAt: serverTimestamp()
+    });
+    input.value = '';
+  };
+};
+
+// Display posts with reactions, comments, and chat
+const q = query(collection(db,'publications'), orderBy('createdAt','desc'));
+onSnapshot(q, async snapshot => {
+  const out = document.getElementById('posts'); out.innerHTML = '';
+  for (const docSnap of snapshot.docs) {
+    const data = docSnap.data(); const id = docSnap.id;
+    const when = data.createdAt?.toDate().toLocaleString() || '';
+    // reactions
+    const emojis = ['👍','❤️','😂','😮','😢'];
+    let reactHtml = emojis.map(e=>{
+      const count = data.reactions?.[e]||0;
+      return `<span class="emoji-btn" onclick="reactPost('${id}','${e}')">${e}<sub>${count}</sub></span>`;
+    }).join(' ');
+    // comments
+    const commentsSnap = await getDocs(query(collection(db,'publications',id,'comments'),orderBy('createdAt','asc')));
+    let commentsHtml = '';
+    commentsSnap.forEach(c=>{
+      const cd=c.data(); const cwhen = cd.createdAt?.toDate().toLocaleString()||'';
+      commentsHtml += `<div class="comment"><strong>${cd.authorName}</strong> <small>${cwhen}</small><p>${cd.text}</p></div>`;
+    });
+    out.innerHTML += `
+      <div class="post">
+        <p><strong>${data.authorName}</strong> <em>${when}</em></p>
+        <p>${data.description}</p>
+        <p><a href="${data.fbLink}" target="_blank">Facebook Link</a></p>
+        <div class="reactions">${reactHtml}</div>
+        <button class="pm-btn" onclick='openChat(${JSON.stringify({ id, author: data.author, authorName: data.authorName })})'>💬 Chat</button>
+        <div id="chat-${id}" class="chat-section" style="display:none;">
+          <div class="messages"></div>
+          <input type="text" placeholder="Type a message..."><button>Send</button>
+        </div>
+        <div class="comments">
+          ${commentsHtml}
+          <textarea id="comment-input-${id}" placeholder="Soraty hevitra…"></textarea>
+          <button onclick="commentOnPost('${id}')">↩️</button>
+        </div>
+      </div>
+    `;
+  }
+});
+
+  </script>
+  <style>
+    body{max-width:600px;margin:2em auto;font-family:sans-serif;}
+    .emoji-btn{subscript-vertical-align:super;cursor:pointer;margin-right:8px;font-size:1.2em;}
+    .pm-btn{background:none;border:none;cursor:pointer;color:#007BFF;margin:8px 0;font-size:1em;}
+    .comment{margin:5px 0 5px 10px;padding:5px;border-left:2px solid #ccc;}
+    textarea, input[type=text]{width:100%;margin:4px 0;}
+    .post{border:1px solid #ddd;padding:1em;margin-bottom:1.5em;}
+    .chat-section{border:1px solid #ccc;padding:0.5em;margin:0.5em 0;}
+    .messages{max-height:150px;overflow-y:auto;margin-bottom:0.5em;}
+    .msg-self{text-align:right;color:blue;}
+    .msg-other{text-align:left;color:green;}
+  </style>
+</head>
+<body>
+  <h1>Asa en Ligne</h1>
+  <p id="auth-status">… mampiasa authentication …</p>
+  <section id="form-section" style="display:none;">
+    <h2>Soraty ny hevitrao</h2>
+    <textarea id="description" rows="3" placeholder="Ahoana ny hevitrao?…"></textarea><br>
+    <input type="url" id="fb-link" placeholder="Lien Facebook…"><br>
+    <button onclick="postData()">Alefa</button>
+  </section>
+  <hr>
+  <div id="posts"></div>
+</body>
+</html> -->    
+          
+          
+          
+          
+          
+          
+          
         <h2>FILAZANA </h2>
      <p style="background-color: #ffffff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border-left: 6px solid #007BFF; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 18px; line-height: 1.6; color: #333333; max-width: 700px; margin: 40px auto; text-align: justify;">
   ⚠️ Miala tsiny indrindra aminareo mpanjifa sy mpitsidika rehetra fa efa elaela izay no tsy niasa ny site Asa En Ligne Mada. 
@@ -296,259 +678,4 @@
       <div id="transaction" class="home-section">
         <h2>Transaction</h2>
        <a href="https://demande-du-retrait.vercel.app/" target="_blank">
-  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    RETRAIT D'ARGENT 
-  </button>
-
-         
-       </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Firebase + App JS -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      sendPasswordResetEmail
-    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc,
-      updateDoc,
-      addDoc,
-      collection
-    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
-
-    // Configuration Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyCK4HqGSjYRT2jFNhAvniSWIzhDvEb2qAQ",
-      authDomain: "asa-en-ligne.firebaseapp.com",
-      projectId: "asa-en-ligne",
-      storageBucket: "asa-en-ligne.appspot.com",
-      messagingSenderId: "58359363245",
-      appId: "1:58359363245:web:ca5969776ce9cd86aef824",
-      measurementId: "G-MRVHVWPV71"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Global variable ho an'ny hafatra admin
-    let storedAdminMessage = "";
-
-    // ----- Inscription -----
-    window.registerUser = function() {
-      const fullName = document.getElementById("full-name").value.trim();
-      const email = document.getElementById("reg-email").value.trim();
-      const password = document.getElementById("reg-password").value;
-      const confirmPassword = document.getElementById("reg-confirm-password").value;
-      if(password !== confirmPassword) {
-        alert("Les mots de passe ne correspondent pas.");
-        return;
-      }
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // Enregistrer l'utilisateur sans code d'activation tant que paiement non effectué
-          setDoc(doc(db, "users", user.uid), {
-            fullName: fullName,
-            email: email,
-            paymentStatus: "not_paid",
-            createdAt: new Date()
-          })
-          .then(() => {
-            alert("Inscription réussie. Veuillez effectuer le paiement pour recevoir un code d'activation.");
-            showLoginSection();
-          })
-          .catch((error) => alert("Erreur lors de l'enregistrement : " + error.message));
-        })
-        .catch((error) => alert("Erreur : " + error.message));
-    };
-
-    // ----- Affichage des sections -----
-    window.showRegistrationSection = function() {
-      document.getElementById("registration-section").classList.remove("hidden");
-      document.getElementById("login-section").classList.add("hidden");
-      document.getElementById("final-activation-form").classList.add("hidden");
-      document.getElementById("activation-notification").classList.add("hidden");
-      document.getElementById("payment-instructions").classList.add("hidden");
-      document.getElementById("payment-proof").classList.add("hidden");
-      document.getElementById("pending-verification").classList.add("hidden");
-      document.getElementById("homepage").classList.add("hidden");
-    };
-
-    window.showLoginSection = function() {
-      document.getElementById("registration-section").classList.add("hidden");
-      document.getElementById("login-section").classList.remove("hidden");
-      document.getElementById("final-activation-form").classList.add("hidden");
-      document.getElementById("activation-notification").classList.add("hidden");
-      document.getElementById("payment-instructions").classList.add("hidden");
-      document.getElementById("payment-proof").classList.add("hidden");
-      document.getElementById("pending-verification").classList.add("hidden");
-      document.getElementById("homepage").classList.add("hidden");
-    };
-
-    // ----- Connexion initiale -----
-    window.loginUser = function() {
-      const email = document.getElementById("login-email").value.trim();
-      const password = document.getElementById("login-password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if(userDoc.exists()){
-            const userData = userDoc.data();
-            if(userData.paymentStatus === "confirmed") {
-              // Afficher activation-notification avec code d'activation et notification admin éventuelle
-              document.getElementById("activation-notification").classList.remove("hidden");
-              document.getElementById("activation-code-container").innerHTML = 
-                "Voici votre nouveau code d'activation : <strong id='user-activation-code'>" + userData.activationCode + "</strong>";
-              if(userData.adminMessage) {
-                storedAdminMessage = userData.adminMessage;
-                document.getElementById("admin-notification-text").innerText = "Vous avez un message de l'admin.";
-                document.getElementById("admin-notification").classList.remove("hidden");
-              } else {
-                document.getElementById("admin-notification").classList.add("hidden");
-              }
-            } else if(userData.paymentStatus === "pending") {
-              document.getElementById("pending-verification").classList.remove("hidden");
-            } else {
-              document.getElementById("payment-instructions").classList.remove("hidden");
-            }
-          } else {
-            alert("Aucune donnée utilisateur trouvée.");
-          }
-        })
-        .catch(error => alert("Erreur : " + error.message));
-    };
-
-    window.resetPassword = function() {
-      const email = document.getElementById("login-email").value.trim();
-      if(!email) {
-        alert("Veuillez entrer votre adresse e-mail.");
-        return;
-      }
-      sendPasswordResetEmail(auth, email)
-        .then(() => alert("Email de réinitialisation envoyé !"))
-        .catch((error) => alert("Erreur : " + error.message));
-    };
-
-    // ----- Preuve de paiement -----
-    window.showPaymentProofForm = function() {
-      document.getElementById("payment-instructions").classList.add("hidden");
-      document.getElementById("payment-proof").classList.remove("hidden");
-    };
-
-    window.submitPaymentProof = async function() {
-      const proofFullName = document.getElementById("proof-fullname").value.trim();
-      const proofPhone = document.getElementById("proof-phone").value.trim();
-      const proofAmount = document.getElementById("proof-amount").value.trim();
-      if(!proofFullName || !proofPhone || !proofAmount) {
-        alert("Veuillez remplir tous les champs.");
-        return;
-      }
-      try {
-        await addDoc(collection(db, "paymentRequests"), {
-          userId: auth.currentUser.uid,
-          fullName: proofFullName,
-          phone: proofPhone,
-          amount: proofAmount,
-          timestamp: new Date().toISOString(),
-          status: "pending"
-        });
-        await updateDoc(doc(db, "users", auth.currentUser.uid), {
-          paymentStatus: "pending"
-        });
-        alert("Votre demande de paiement a été envoyée et est en attente de vérification.");
-        document.getElementById("payment-proof").classList.add("hidden");
-        document.getElementById("pending-verification").classList.remove("hidden");
-      } catch (error) {
-        alert("Erreur lors de l'envoi de la preuve : " + error.message);
-      }
-    };
-
-    // ----- Notification admin -----
-    window.viewAdminMessage = function() {
-      alert("Message de l'admin : " + storedAdminMessage);
-      sessionStorage.setItem("adminMessageSeen", "true");
-      document.getElementById("admin-notification").classList.add("hidden");
-    };
-
-    window.dismissAdminMessage = function() {
-      sessionStorage.setItem("adminMessageSeen", "true");
-      document.getElementById("admin-notification").classList.add("hidden");
-    };
-
-    // ----- Activation finale -----
-    window.showFinalActivationForm = function() {
-      document.getElementById("activation-notification").classList.add("hidden");
-      document.getElementById("final-activation-form").classList.remove("hidden");
-      const email = document.getElementById("login-email").value.trim();
-      document.getElementById("final-email").value = email;
-    };
-
-    window.finalLogin = function() {
-      const email = document.getElementById("final-email").value.trim();
-      const password = document.getElementById("final-password").value;
-      const activationCodeInput = document.getElementById("final-activation-code").value.trim();
-      signInWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if(userDoc.exists()){
-            const userData = userDoc.data();
-            if(userData.activationCode === activationCodeInput) {
-              alert("Connexion réussie !");
-              // Afeno ny formulaire rehetra ary asehoy ny page d'accueil
-              document.getElementById("registration-section").classList.add("hidden");
-              document.getElementById("login-section").classList.add("hidden");
-              document.getElementById("payment-instructions").classList.add("hidden");
-              document.getElementById("payment-proof").classList.add("hidden");
-              document.getElementById("pending-verification").classList.add("hidden");
-              document.getElementById("activation-notification").classList.add("hidden");
-              document.getElementById("final-activation-form").classList.add("hidden");
-              // Asehoy ny page d'accueil
-              document.getElementById("homepage").classList.remove("hidden");
-            } else {
-              alert("Code d'activation incorrect.");
-            }
-          } else {
-            alert("Aucune donnée utilisateur trouvée.");
-          }
-        })
-        .catch(error => alert("Erreur : " + error.message));
-    };
-
-    // ----- Navigation ao amin'ny page d'accueil -----
-    window.showSection = function(sectionId) {
-      const sections = document.querySelectorAll(".home-section");
-      sections.forEach(section => {
-        if(section.id === sectionId) {
-          section.classList.add("active");
-        } else {
-          section.classList.remove("active");
-        }
-      });
-    };
-  </script>
-</body>
-  </html>
-  
-  <!-- Bouton Service Client -->
-  <a href="https://service-client-asa-en-ligne-site-we.vercel.app/"
-     class="service-client-button"
-     target="_blank"
-     title="Mifandraisa amin'ny Service Client">
-    <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="Client Icon">
-    <span>Service Client</span>
-  </a>
-
-</body>
-</html>
+  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5p
