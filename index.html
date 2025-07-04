@@ -838,44 +838,50 @@ async function showUserInfo(uid) {
 <html lang="mg">
 <head>
   <meta charset="UTF-8">
-  <title>APK Téléchargement</title>
+  <title>Midira ao amin'ny Groupe WhatsApp</title>
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
     .download-btn {
-      display: inline-block;
-      padding: 12px 24px;
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      padding: 10px 20px;
       background-color: #25D366; /* Loko WhatsApp */
       color: white;
       text-decoration: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 50px;
+      font-size: 15px;
       font-weight: bold;
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .download-btn:hover {
       background-color: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    .download-icon {
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
 
-  <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" target="_blank" class="download-btn">
-    📥 Télécharger Apk
+  <!-- Bouton Miditra amin'ny Groupe WhatsApp -->
+  <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" 
+     target="_blank" 
+     class="download-btn">
+    <span class="download-icon">📥</span>Télécharger Apk
   </a>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-       
