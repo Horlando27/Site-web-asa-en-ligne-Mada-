@@ -1,239 +1,186 @@
-<!DOCTYPE html>
-<html lang="mg">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bouton Service Client</title>
-  <style>
-    /* Global Styles */
-    
-
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: bold;
-      color: #00698f;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Service Client Button */
-    .service-client-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      background-color: #00698f;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      z-index: 1000;
-    }
-
-    .service-client-button img {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-    }
-
-    .service-client-button span {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .service-client-button:hover {
-      background-color: #00567f;
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 480px) {
-      .service-client-button {
-        bottom: 12px;
-        right: 12px;
-        padding: 8px 12px;
-      }
-      .service-client-button span {
-        font-size: 12px;
-      }
-      .service-client-button img {
-        width: 20px;
-        height: 20px;
-        margin-right: 6px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>ASA EN LIGNE ETO MADA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
- /* RESET & BASE */
-* {
+/* Style Général sy Consistance */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  /* espace pou nav fixed */
+  padding-top: 70px;
+}.container { max-width: 400px; margin: 40px auto; padding: 30px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+
+.hidden { display: none; }
+
+h2 { text-align: center; color: #007bff; }
+
+form input, form button, button { width: 100%; padding: 12px 15px; margin-top: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+
+form button, button { background-color: #007bff; color: #ffffff; border: none; cursor: pointer; transition: background-color 0.3s; }
+
+form button:hover, button:hover { background-color: #0056b3; }
+
+.link { text-align: center; margin-top: 15px; }
+
+.link a { color: #007bff; text-decoration: none; }
+
+.link a:hover { text-decoration: underline; }
+
+/* Section d'accueil - navigation */ .home-nav-wrapper { position: fixed; top: 0; left: 0; width: 100%; background-color: #ffffff; border-bottom: 2px solid #007bff; z-index: 1000; }
+
+.home-nav { display: flex; justify-content: space-around; align-items: center; max-width: 800px; margin: 0 auto; padding: 10px 0; }
+
+.home-nav button { background: transparent; border: none; font-size: 24px; cursor: pointer; padding: 5px 15px; transition: color 0.3s; }
+
+.home-nav button:hover, .home-nav button.active { color: #0056b3; }
+
+/* Contenu section d'accueil - items flexibles */ .home-section { display: none; padding: 20px; box-sizing: border-box; }
+
+.home-section.active { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+
+.section-item { background-color: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 300px; flex: 1 1 200px; text-align: center; }
+
+/* Page Inscription sy Connexion */ #register, #login, #payment, #activation { width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+#register .container, #login .container, #payment .container, #activation .container { width: 100%; max-width: 400px; }
+
+#register form, #login form, #payment form, #activation form { display: flex; flex-direction: column; }
+
+#register h2, #login h2, #payment h2, #activation h2 { margin-bottom: 20px; }
+
+/* Page Payment & Activation fampahafantarana */ #payment p, #activation p { font-size: 15px; color: #555; margin-top: 10px; line-height: 1.5; }
+
+/* Style manokana ho an'ny code activation */ #activation input[type="text"] { letter-spacing: 2px; text-align: center; }
+
+/* Ny buttons rehetra mitovy amin'ny homepage */ button { background-color: #007bff; color: #ffffff; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; }
+
+button:hover { background-color: #0056b3; }
+
+
+
+
+
+
+
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
+  background-color: white;
+  color: black;
+  transition: all 0.3s ease;
 }
 
-/* CONTAINER COMMUN */
-.container {
-  max-width: 500px;
-  margin: 20px auto;
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.hidden {
-  display: none;
+.dark-mode {
+  background-color: #121212;
+  color: white;
 }
 
-/* FORMULAIRES */
-h2 {
-  text-align: center;
-  font-weight: 600;
+.dark-mode * {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dark-mode-btn {
+  position: fixed;      /* Mitsangana mandritra ny scroll */
+  top: 50%;             /* 50% avy any ambony (afovoany mitsivalana) */
+  left: 0;              /* Mipetaka tanteraka amin’ny sisiny havia */
+  transform: translateY(-50%); /* Atao afovoany tsara */
+  z-index: 1000;
+  
+  /* Endrika sy loko */
+  background-color: #f0f0f0;
   color: #333;
-  margin-bottom: 15px;
-}
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: #fafafa;
-  transition: border-color .3s ease;
-}
-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: #fff;
   border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color .3s ease;
-}
-button:hover {
-  background-color: #0056b3;
-}
-.link {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 14px;
-}
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-/* HOMEPAGE LAYOUT */
-#homepage {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* NAVIGATION STICKY */
-.home-nav {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  padding: 10px 0;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
   display: flex;
-  justify-content: space-around;
-  border-bottom: 2px solid #e0e0e0;
-  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  
+  /* Effects kely */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.home-nav button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 10px;
-  background: #fff;
+
+.dark-mode-btn:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.dark-mode-btn.active {
+  background-color: #333;
+  color: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
+
+
+.service-client-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #ffffff;
   border: 2px solid #007bff;
-  border-radius: 6px;
-  color: #007bff;
-  font-size: 18px;
-}
-.home-nav button:hover {
-  background: #007bff;
-  color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-/* SECTIONS: bordure MITOKANA eo ambony */
-.home-section {
-  display: none;
-  width: 100%;
-  padding: 40px 20px;
-  margin-top: 20px;
-  background: #ffffff;
-  border-top: 4px solid #007bff;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-.home-section.active {
-  display: block;
-}
-.home-section h2 {
-  font-size: 26px;
-  margin-bottom: 15px;
-  color: #333;
-}
-.home-section p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #555;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: justify;
+.service-client-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .container {
-    margin: 15px;
-    padding: 20px;
-  }
-  .home-nav button {
-    font-size: 16px;
-    padding: 8px;
-  }
-  .home-section {
-    padding: 30px 15px;
-  }
+.service-client-icon:hover {
+  transform: scale(1.1);
+  background-color: #007bff;
 }
-  </style>
+
+.service-client-icon:hover img {
+  filter: brightness(0) invert(1);
+}
+ </style>
+
+
 </head>
+
+
+
 <body>
+    
+  
+
+
   <!-- Section d'inscription -->
   <div id="registration-section" class="container">
     <h2>Inscription</h2>
@@ -247,10 +194,7 @@ a:hover {
     <div class="link">
       Déjà un compte ? <a href="#" onclick="showLoginSection()">Connectez-vous</a>
     </div>
-  </div>
-
-  <!-- Section de connexion initiale -->
-  <div id="login-section" class="container hidden">
+  </div>  <!-- Section de connexion initiale -->  <div id="login-section" class="container hidden">
     <h2>Connexion</h2>
     <form onsubmit="event.preventDefault(); loginUser();">
       <input type="email" id="login-email" placeholder="E-mail" required>
@@ -263,10 +207,7 @@ a:hover {
     <div class="link">
       Pas de compte ? <a href="#" onclick="showRegistrationSection()">S'inscrire</a>
     </div>
-  </div>
-
-  <!-- Section fampahafantarana fandoavana -->
-  <div id="payment-instructions" class="container hidden">
+  </div>  <!-- Section fampahafantarana fandoavana -->  <div id="payment-instructions" class="container hidden">
     <h2>Effectuez votre paiement</h2>
     <p>Pour recevoir votre code d'activation, veuillez envoyer <strong>1000 Ar</strong> isambolana amin'ireo laharana manaraka:</p>
     <ul>
@@ -275,25 +216,16 @@ a:hover {
       <li>0333635111 [RANAIVOSON Angelo]</li>
     </ul>
     <button onclick="showPaymentProofForm()">J'ai payé</button>
-  </div>
-
-  <!-- Formulaire de preuve de paiement -->
-  <div id="payment-proof" class="container hidden">
+  </div>  <!-- Formulaire de preuve de paiement -->  <div id="payment-proof" class="container hidden">
     <h2>Preuve de paiement</h2>
     <input type="text" id="proof-fullname" placeholder="Nom complet" required>
     <input type="text" id="proof-phone" placeholder="Numéro de téléphone utilisé" required>
     <input type="number" id="proof-amount" placeholder="Montant à payer" required>
     <button onclick="submitPaymentProof()">Envoyer</button>
-  </div>
-
-  <!-- Notification de paiement en attente -->
-  <div id="pending-verification" class="container hidden">
+  </div>  <!-- Notification de paiement en attente -->  <div id="pending-verification" class="container hidden">
     <h2>En attente de vérification</h2>
     <p>Votre demande de paiement est en attente de vérification par l'administration.</p>
-  </div>
-
-  <!-- Notification d'activation -->
-  <div id="activation-notification" class="container hidden">
+  </div>  <!-- Notification d'activation -->  <div id="activation-notification" class="container hidden">
     <h2>Paiement confirmé</h2>
     <div id="admin-notification" class="hidden">
       <p id="admin-notification-text">Vous avez un message de l'admin.</p>
@@ -302,10 +234,7 @@ a:hover {
     </div>
     <p id="activation-code-container">Voici votre nouveau code d'activation : <strong id="user-activation-code"></strong></p>
     <button onclick="showFinalActivationForm()">Connectez-vous</button>
-  </div>
-
-  <!-- Formulaire final d'activation -->
-  <div id="final-activation-form" class="container hidden">
+  </div>  <!-- Formulaire final d'activation -->  <div id="final-activation-form" class="container hidden">
     <h2>Connexion - Activation</h2>
     <form onsubmit="event.preventDefault(); finalLogin();">
       <input type="email" id="final-email" placeholder="E-mail" required>
@@ -313,22 +242,41 @@ a:hover {
       <input type="text" id="final-activation-code" placeholder="Code d'activation" required>
       <button type="submit">Entrer</button>
     </form>
-  </div>
+  </div>  <!-- Page d'accueil (miseho rehefa activation vita) -->  <div id="homepage" class="container hidden">
+    <!-- Wrapper horizontal nav fixed top -->
+    <div class="home-nav-wrapper">
+      <div class="home-nav">
+        <button onclick="showSection('asaMampiasaVola')">🏘️</button>
+        <button onclick="showSection('asaGratuit')">💼</button>
+        <button onclick="showSection('formationTrading')">🔳</button>
+        <button onclick="showSection('transaction')">💵</button>
+      </div>
+    </div><!-- Contenu isaky ny section -->
+<div id="homepage-content">
+  <div id="asaMampiasaVola" class="home-section active">
+    <!-- Mety ampidiro items maromaro at
+    o -->
+      <button id="darkModeToggle" class="dark-mode-btn">
+  🌙
+</button>
 
-  <!-- Page d'accueil (miseho rehefa activation vita) -->
-  <div id="homepage" class="container hidden">
-    <!-- Navigation horizontal ho an'ny section -->
-    <div class="home-nav">
-      <button onclick="showSection('asaMampiasaVola')">🏘️</button>
-      <button onclick="showSection('asaGratuit')">💼</button>
-      <button onclick="showSection('formationTrading')">🔳</button>
-      <button onclick="showSection('transaction')">💵</button>
-    </div>
-    <!-- Contenu isaky ny section -->
-    <div id="homepage-content">
-      <div id="asaMampiasaVola" class="home-section active">
-          
+
+
+
+
+
+
+
+
+
+
+ 
   
+  
+  
+  
+
+    
     <!DOCTYPE html><html lang="mg">
 <head>
   <meta charset="UTF-8">
@@ -542,50 +490,128 @@ async function showUserInfo(uid) {
     </section>
   </div>  <section id="form-section">
     <div id="auth-status"></div>
-    <textarea id="description" rows="3" placeholder="Ahoana ny hevitrao?…"></textarea>
-    <input type="url" id="fb-link" placeholder="Lien Facebook…">
+    <textarea id="description" rows="3" placeholder="Lien Facebook…">
     <button onclick="postData()">Alefa</button>
   </section>
   <hr>
   <div id="posts"></div>
 </body>
 </html>
-      
-      
-    
-    
-    
-        <h2>FILAZANA </h2>
-     <p style="background-color: #ffffff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border-left: 6px solid #007BFF; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 18px; line-height: 1.6; color: #333333; max-width: 700px; margin: 40px auto; text-align: justify;">
-  ⚠️ Miala tsiny indrindra aminareo mpanjifa sy mpitsidika rehetra fa efa elaela izay no tsy niasa ny site Asa En Ligne Mada. 
-  Nisy olana teknika tsy maintsy nojerentsika, ary tsy maintsy nandraisana fotoana kely ny fanarenana azy. 
-  Efa miezaka mafy izahay amin’izao fotoana izao hanarenana sy hanavaozana tanteraka ilay site mba hahafahanareo manohy 
-  mampiasa azy amin'ny fomba mahomby sy mahafinaritra. Mankasitraka ny faharetanareo sy ny fanohananareo hatrany!
-     </p>
-      </div>
-      
-      <div id="asaGratuit" class="home-section">
-        <h2>Asa Gratuit</h2>
-       
-      </div>
-      <div id="formationTrading" class="home-section">
-        <h2>Formation Trading</h2>
-        
-      </div>
-      <div id="transaction" class="home-section">
-        <h2>Transaction</h2>
-       <a href="https://demande-du-retrait.vercel.app/" target="_blank">
-  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    RETRAIT D'ARGENT 
-  </button>
 
-          </a>
-      </div>
+
+
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <title>Midira ao amin'ny Groupe WhatsApp</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .download-btn {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      padding: 10px 20px;
+      background-color: #25D366; /* Loko WhatsApp */
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    .download-icon {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Bouton Miditra amin'ny Groupe WhatsApp -->
+  <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" 
+     target="_blank" 
+     class="download-btn">
+    <span class="download-icon">📥</span>Télécharger Apk
+  </a>
+
+</body>
+</html>
+    
+    
+    
+    
+    
+    <div class="section-item">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </div>
+    <!-- Item faharoa azo ampiarahina -->
+    <div class="section-item">
+      
+      
+      
     </div>
   </div>
 
+  <div id="asaGratuit" class="home-section">
+    <div class="section-item">
+      <h3>Asa Gratuit 1</h3>
+      <p>Famaritana asa voalohany.</p>
+    </div>
+    <div class="section-item">
+      <h3>Asa Gratuit 2</h3>
+      <p>Famaritana asa faharoa.</p>
+    </div>
+  </div>
 
-  <!-- Firebase + App JS -->
+  <div id="formationTrading" class="home-section">
+    <div class="section-item">
+      <h3>Formation Trading 1</h3>
+      <p>Fampiofanana voalohany.</p>
+    </div>
+    <div class="section-item">
+      <h3>Formation Trading 2</h3>
+      <p>Fampiofanana faharoa.</p>
+    </div>
+  </div>
+
+  <div id="transaction" class="home-section">
+    <div class="section-item">
+      <h3>Transaction</h3>
+      <a href="https://demande-du-retrait.vercel.app/" target="_blank">
+        <button>RETRAIT D'ARGENT</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+  </div>  
+  
+  
+   <!-- Firebase + App JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
     import {
@@ -816,164 +842,58 @@ async function showUserInfo(uid) {
         }
       });
     };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     const toggleButton = document.getElementById('darkModeToggle');
+  toggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+  });
   </script>
+  
+  <!-- Farany ao amin'ny body -->
+<script>
+ 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a href="https://service-client-asa-en-ligne-site-we.vercel.app/" 
+   class="service-client-icon" 
+   target="_blank" 
+   title="Service Client">
+   <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Service Client" />
+</a>
 </body>
   </html>
   
-  </div>
-
-  <!-- Bouton Service Client -->
-  <a href="https://service-client-asa-en-ligne-site-we.vercel.app/"
-     class="service-client-button"
-     target="_blank"
-     title="Mifandraisa amin'ny Service Client">
-    <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="Client Icon">
-    <span>Service Client</span>
-  </a>
-
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="mg">
-<head>
-  <meta charset="UTF-8">
-  <title>Midira ao amin'ny Groupe WhatsApp</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    .download-btn {
-      position: fixed;
-      bottom: 15px;
-      left: 15px;
-      padding: 10px 20px;
-      background-color: #25D366; /* Loko WhatsApp */
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 15px;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .download-btn:hover {
-      background-color: #128C7E;
-      transform: translateY(-2px);
-    }
-
-    .download-icon {
-      font-size: 18px;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Bouton Miditra amin'ny Groupe WhatsApp -->
-  <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" 
-     target="_blank" 
-     class="download-btn">
-    <span class="download-icon">📥</span>Télécharger Apk
-  </a>
-
-</body>
-</html>
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="mg">
-<head>
-  <meta charset="UTF-8" />
-  <title>Notification automatique</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
-    }
-    #notificationModal {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #00698f;
-      color: white;
-      padding: 15px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      z-index: 9999;
-      width: 300px;
-      text-align: center;
-    }
-    #notificationModal button {
-      margin-top: 10px;
-      padding: 10px;
-      border: none;
-      background-color: #fff;
-      color: #00698f;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #notificationModal button:hover {
-      background-color: #eee;
-    }
-  </style>
-</head>
-<body>
-
-<div id="notificationModal">
-  <p id="messageContent">📩 Vous avez un nouveau message</p>
-  <button id="modalButton" onclick="handleModalAction()">Ouvrir</button>
-</div>
-
-<script>
-  function showNotification() {
-    document.getElementById("notificationModal").style.display = "block";
-  }
-
-  function hideNotification() {
-    document.getElementById("notificationModal").style.display = "none";
-  }
-
-  function handleModalAction() {
-    hideNotification();
-    // Tehirizo ao amin'ny localStorage ny fotoana anakatonana (timestamp ankehitriny)
-    localStorage.setItem('lastClosedTime', Date.now().toString());
-    // Mandeha any amin'ny pejy service client
-    window.location.href = "https://service-client-asa-en-ligne-site-we.vercel.app/";
-  }
-
-  function checkIfNotificationAllowed() {
-    const lastClosedTime = localStorage.getItem('lastClosedTime');
-    const now = Date.now();
-    if (!lastClosedTime) {
-      // Tsy mbola nanokatra mihitsy → aseho
-      return true;
-    }
-    const hoursPassed = (now - parseInt(lastClosedTime, 10)) / (1000 * 60 * 60);
-    return hoursPassed >= 3; // Avela raha efa nihoatra ny 3 ora
-  }
-
-  // Main execution:
-  setTimeout(() => {
-    if (checkIfNotificationAllowed()) {
-      showNotification();
-    } else {
-      console.log("Tsy avela hiseho ( mbola tsy ampy 3 ora )");
-    }
-  }, 5000); // 5 sec delay
-</script>
-
-</body>
-</html>
+  
+  
+  
