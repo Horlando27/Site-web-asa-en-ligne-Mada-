@@ -885,3 +885,111 @@ async function showUserInfo(uid) {
 
 </body>
 </html>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notification automatique</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    #notificationModal {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #00698f;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 9999;
+      width: 300px;
+      text-align: center;
+    }
+    #notificationModal button {
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      background-color: #fff;
+      color: #00698f;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #notificationModal button:hover {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+
+<div id="notificationModal">
+  <p id="messageContent"></p>
+  <button id="modalButton" onclick="handleModalAction()">OK</button>
+</div>
+
+<script>
+  // Simulate function mijery amin'ny toerana tahiry na API
+  // Mety asiana fetch na firebase ao eto raha mila marina kokoa
+  function checkForNewMessages() {
+    // Ovay eto ny fanadihadiana marina anao
+    // Ohatra, azo ampiasaina fetch() na firebase query
+
+    // Raha simulation dia hiverina true/false izy avy amin'ny random
+    // Mba andramo koa ovaina raha tianao ho true na false
+
+    // return Math.random() < 0.5;  // random true/false (50%)
+    
+    // Raha tianao dia ovay eto direct true na false
+    return true; // ohatra misy hafatra vaovao
+  }
+
+  function showNotification(hasNewMessage) {
+    const modal = document.getElementById("notificationModal");
+    const messageContent = document.getElementById("messageContent");
+    const modalButton = document.getElementById("modalButton");
+
+    if (hasNewMessage) {
+      messageContent.textContent = "📩 Vous avez un nouveau message";
+      modalButton.textContent = "Ouvrir";
+    } else {
+      messageContent.textContent = "❌ Vous n'avez pas encore reçu un nouveau message";
+      modalButton.textContent = "Fermer";
+    }
+
+    modal.style.display = "block";
+  }
+
+  function handleModalAction() {
+    const modal = document.getElementById("notificationModal");
+    modal.style.display = "none";
+
+    // Raha misy hafatra, mandeha any amin'ny pejy service client
+    if (window.hasNewMessage) {
+      window.location.href = "https://service-client-asa-en-ligne-site-we.vercel.app/";
+    }
+  }
+
+  // Main execution: manao automatique check ary aseho ny notification
+  function init() {
+    window.hasNewMessage = checkForNewMessages();
+    showNotification(window.hasNewMessage);
+  }
+
+  // Mampiseho automatique aorian'ny 2 segondra
+  setTimeout(init, 2000);
+</script>
+
+</body>
+</html>
