@@ -891,7 +891,6 @@ async function showUserInfo(uid) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="mg">
 <head>
@@ -933,62 +932,47 @@ async function showUserInfo(uid) {
 </head>
 <body>
 
-
 <div id="notificationModal">
-  <p id="messageContent"></p>
-  <button id="modalButton" onclick="handleModalAction()">OK</button>
+  <p id="messageContent">📩 Vous avez un nouveau message</p>
+  <button id="modalButton" onclick="handleModalAction()">Ouvrir</button>
 </div>
 
 <script>
-  // Simulate function mijery amin'ny toerana tahiry na API
-  // Mety asiana fetch na firebase ao eto raha mila marina kokoa
-  function checkForNewMessages() {
-    // Ovay eto ny fanadihadiana marina anao
-    // Ohatra, azo ampiasaina fetch() na firebase query
-
-    // Raha simulation dia hiverina true/false izy avy amin'ny random
-    // Mba andramo koa ovaina raha tianao ho true na false
-
-    // return Math.random() < 0.5;  // random true/false (50%)
-    
-    // Raha tianao dia ovay eto direct true na false
-    return true; // ohatra misy hafatra vaovao
+  function showNotification() {
+    document.getElementById("notificationModal").style.display = "block";
   }
 
-  function showNotification(hasNewMessage) {
-    const modal = document.getElementById("notificationModal");
-    const messageContent = document.getElementById("messageContent");
-    const modalButton = document.getElementById("modalButton");
-
-    if (hasNewMessage) {
-      messageContent.textContent = "📩 Vous avez un nouveau message";
-      modalButton.textContent = "Ouvrir";
-    } else {
-      messageContent.textContent = "❌ Vous n'avez pas encore reçu un nouveau message";
-      modalButton.textContent = "Fermer";
-    }
-
-    modal.style.display = "block";
+  function hideNotification() {
+    document.getElementById("notificationModal").style.display = "none";
   }
 
   function handleModalAction() {
-    const modal = document.getElementById("notificationModal");
-    modal.style.display = "none";
+    hideNotification();
+    // Tehirizo ao amin'ny localStorage ny fotoana anakatonana (timestamp ankehitriny)
+    localStorage.setItem('lastClosedTime', Date.now().toString());
+    // Mandeha any amin'ny pejy service client
+    window.location.href = "https://service-client-asa-en-ligne-site-we.vercel.app/";
+  }
 
-    // Raha misy hafatra, mandeha any amin'ny pejy service client
-    if (window.hasNewMessage) {
-      window.location.href = "https://service-client-asa-en-ligne-site-we.vercel.app/";
+  function checkIfNotificationAllowed() {
+    const lastClosedTime = localStorage.getItem('lastClosedTime');
+    const now = Date.now();
+    if (!lastClosedTime) {
+      // Tsy mbola nanokatra mihitsy → aseho
+      return true;
     }
+    const hoursPassed = (now - parseInt(lastClosedTime, 10)) / (1000 * 60 * 60);
+    return hoursPassed >= 3; // Avela raha efa nihoatra ny 3 ora
   }
 
-  // Main execution: manao automatique check ary aseho ny notification
-  function init() {
-    window.hasNewMessage = checkForNewMessages();
-    showNotification(window.hasNewMessage);
-  }
-
-  // Mampiseho automatique aorian'ny 2 segondra
-  setTimeout(init, 2000);
+  // Main execution:
+  setTimeout(() => {
+    if (checkIfNotificationAllowed()) {
+      showNotification();
+    } else {
+      console.log("Tsy avela hiseho ( mbola tsy ampy 3 ora )");
+    }
+  }, 5000); // 5 sec delay
 </script>
 
 </body>
