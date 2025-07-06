@@ -6,398 +6,923 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <style>
-    /* Style Général sy Consistance */
-    body {
+    /* ===== RESET & BASE STYLES ===== */
+    * {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      padding-top: 70px;
-      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --warning: #f97316;
+      --danger: #ef4444;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      transition: var(--transition);
+      line-height: 1.6;
     }
     
     body.dark-mode {
-      background-color: #121212;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: var(--light);
+    }
+    
+    /* Plein écran pour la page d'accueil */
+    body.homepage-active {
+      padding-top: 0;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+    
+    .dark-mode .container {
+      background-color: rgba(30, 41, 59, 0.95);
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4 {
+      color: var(--accent);
+    }
+    
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    
+    p {
+      margin-bottom: 15px;
+      color: var(--gray);
+    }
+    
+    .dark-mode p {
+      color: var(--light-gray);
+    }
+    
+    /* ===== FORM ELEMENTS ===== */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .dark-mode label {
+      color: var(--light);
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    textarea, select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--light-gray);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 16px;
+      transition: var(--transition);
+      background: var(--light);
+    }
+    
+    .dark-mode input[type="text"],
+    .dark-mode input[type="email"],
+    .dark-mode input[type="password"],
+    .dark-mode input[type="number"],
+    .dark-mode textarea, 
+    .dark-mode select {
+      background: var(--dark);
+      border-color: #334155;
+      color: var(--light);
+    }
+    
+    input:focus,
+    textarea:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    
+    button, .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: var(--primary);
       color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      text-decoration: none;
+      width: 100%;
     }
     
-    .dark-mode * {
-      background-color: #1e1e1e;
+    button:hover, .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .btn-accent {
+      background: var(--accent);
+    }
+    
+    .btn-accent:hover {
+      background: #d97706;
+    }
+    
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    
+    /* ===== LINK STYLES ===== */
+    .link {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray);
+    }
+    
+    .link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .link a:hover {
+      text-decoration: underline;
+      color: var(--primary-dark);
+    }
+    
+    .dark-mode .link a {
+      color: var(--accent);
+    }
+    
+    /* ===== NAVIGATION ===== */
+    .home-nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-bottom: 2px solid var(--primary);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    
+    .dark-mode .home-nav-wrapper {
+      background-color: rgba(30, 41, 59, 0.95);
+      border-bottom-color: var(--accent);
+    }
+    
+    .home-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 10px 0;
+    }
+    
+    .home-nav button {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 12px 15px;
+      transition: var(--transition);
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .home-nav button span {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .home-nav button:hover, .home-nav button.active {
+      background: var(--primary);
       color: white;
+      transform: translateY(-3px);
     }
     
-    .container { 
-      max-width: 400px; 
-      margin: 40px auto; 
-      padding: 30px; 
-      background-color: #ffffff; 
-      border-radius: 10px; 
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    .dark-mode .home-nav button:hover, 
+    .dark-mode .home-nav button.active {
+      background: var(--accent);
     }
     
-    .hidden { display: none; }
-    
-    h2 { text-align: center; color: #007bff; }
-    
-    form input, form button, button { 
-      width: 100%; 
-      padding: 12px 15px; 
-      margin-top: 15px; 
-      border: 1px solid #ccc; 
-      border-radius: 5px; 
-      font-size: 16px; 
+    /* ===== HOME SECTIONS ===== */
+    .home-section {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 0.5s ease-out;
     }
     
-    form button, button { 
-      background-color: #007bff; 
-      color: #ffffff; 
-      border: none; 
-      cursor: pointer; 
-      transition: background-color 0.3s; 
+    .home-section.active {
+      display: block;
     }
     
-    form button:hover, button:hover { 
-      background-color: #0056b3; 
+    .section-item {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      text-align: center;
+      transition: var(--transition);
     }
     
-    .link { 
-      text-align: center; 
-      margin-top: 15px; 
+    .section-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
     }
     
-    .link a { 
-      color: #007bff; 
-      text-decoration: none; 
+    .dark-mode .section-item {
+      background-color: rgba(30, 41, 59, 0.8);
     }
     
-    .link a:hover { 
-      text-decoration: underline; 
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Section d'accueil - navigation */
-    .home-nav-wrapper { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      background-color: #ffffff; 
-      border-bottom: 2px solid #007bff; 
-      z-index: 1000; 
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     
-    .home-nav { 
-      display: flex; 
-      justify-content: space-around; 
-      align-items: center; 
-      max-width: 800px; 
-      margin: 0 auto; 
-      padding: 10px 0; 
-    }
-    
-    .home-nav button { 
-      background: transparent; 
-      border: none; 
-      font-size: 24px; 
-      cursor: pointer; 
-      padding: 5px 15px; 
-      transition: color 0.3s; 
-    }
-    
-    .home-nav button:hover, .home-nav button.active { 
-      color: #0056b3; 
-    }
-    
-    /* Contenu section d'accueil - items flexibles */
-    .home-section { 
-      display: none; 
-      padding: 20px; 
-      box-sizing: border-box; 
-    }
-    
-    .home-section.active { 
-      display: flex; 
-      flex-wrap: wrap; 
-      justify-content: center; 
-      gap: 20px; 
-    }
-    
-    .section-item { 
-      background-color: #ffffff; 
-      padding: 15px; 
-      border-radius: 8px; 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
-      max-width: 300px; 
-      flex: 1 1 200px; 
-      text-align: center; 
-    }
-    
-    /* Page Inscription sy Connexion */
-    #register, #login, #payment, #activation { 
-      width: 100%; 
-      min-height: 100vh; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
-    
-    #register .container, #login .container, #payment .container, #activation .container { 
-      width: 100%; 
-      max-width: 400px; 
-    }
-    
-    #register form, #login form, #payment form, #activation form { 
-      display: flex; 
-      flex-direction: column; 
-    }
-    
-    #register h2, #login h2, #payment h2, #activation h2 { 
-      margin-bottom: 20px; 
-    }
-    
-    /* Page Payment & Activation fampahafantarana */
-    #payment p, #activation p { 
-      font-size: 15px; 
-      color: #555; 
-      margin-top: 10px; 
-      line-height: 1.5; 
-    }
-    
-    /* Style manokana ho an'ny code activation */
-    #activation input[type="text"] { 
-      letter-spacing: 2px; 
-      text-align: center; 
-    }
-    
-    /* Bouton mode sombre */
+    /* ===== DARK MODE BUTTON ===== */
     .dark-mode-btn {
       position: fixed;
       top: 50%;
       left: 0;
       transform: translateY(-50%);
       z-index: 1000;
-      background-color: #f0f0f0;
-      color: #333;
+      background-color: var(--light);
+      color: var(--dark);
       border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      font-size: 24px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow);
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      transition: var(--transition);
     }
     
     .dark-mode-btn:hover {
-      background-color: #e0e0e0;
       transform: translateY(-50%) scale(1.1);
     }
     
-    .dark-mode-btn.active {
-      background-color: #333;
-      color: #f0f0f0;
+    .dark-mode .dark-mode-btn {
+      background-color: var(--dark);
+      color: var(--accent);
     }
     
-    /* Service client */
+    /* ===== SERVICE CLIENT ICON ===== */
     .service-client-icon {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 30px;
+      right: 30px;
       z-index: 1000;
-      background-color: #ffffff;
-      border: 2px solid #007bff;
+      background-color: var(--light);
+      border: 2px solid var(--primary);
       border-radius: 50%;
-      padding: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
+      padding: 12px;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
     }
     
     .service-client-icon img {
-      width: 40px;
-      height: 40px;
+      width: 100%;
+      height: auto;
       border-radius: 50%;
+      transition: var(--transition);
     }
     
     .service-client-icon:hover {
       transform: scale(1.1);
-      background-color: #007bff;
+      background-color: var(--primary);
+      border-color: var(--accent);
     }
     
     .service-client-icon:hover img {
       filter: brightness(0) invert(1);
     }
     
-    /* Styles pour la section d'accueil */
+    .dark-mode .service-client-icon {
+      background-color: var(--dark);
+      border-color: var(--accent);
+    }
+    
+    /* ===== HOME CONTENT ===== */
     .home-content {
       position: relative;
-      max-width:700px;
-      margin:2em auto;
-      font-family:"Segoe UI",sans-serif;
-      background:#f4f7fa;
-      color:#333;
+      max-width: 800px;
+      margin: 2em auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
     }
     
     .dark-mode .home-content {
-      background:#121212;
-      color:#e0e0e0;
+      background: rgba(30, 41, 59, 0.9);
     }
     
     .home-content h1 {
-      text-align:center;
-      color:#2c3e50;
-      margin:0;
-      padding:1em 0;
+      text-align: center;
+      color: var(--primary);
+      margin: 0;
+      padding: 1em 0;
+      font-size: 32px;
+    }
+    
+    .dark-mode .home-content h1 {
+      color: var(--accent);
     }
     
     #settings-btn {
-      position:fixed;
-      top:50%;
-      right:10px;
-      transform:translateY(-50%);
-      font-size:2em;
-      cursor:pointer;
-      color:#007BFF;
-      background:rgba(255,255,255,0.9);
-      border-radius:50%;
-      padding:0.2em;
-      box-shadow:0 2px 6px rgba(0,0,0,0.2);
-      z-index:1000;
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius) 0 0 var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      transition: var(--transition);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     #settings-btn:hover {
-      background:rgba(255,255,255,1);
+      background: var(--primary);
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .dark-mode #settings-btn {
+      background: rgba(30, 41, 59, 0.9);
+      color: var(--accent);
     }
     
     #settings-modal {
-      display:none;
-      position:fixed;
-      top:50%;
-      right:50px;
-      transform:translateY(-50%);
-      width:260px;
-      background:#fff;
-      border:1px solid #ccc;
-      border-radius:8px;
-      padding:1em;
-      box-shadow:0 4px 12px rgba(0,0,0,0.15);
-      z-index:1001;
+      display: none;
+      position: fixed;
+      top: 50%;
+      right: 60px;
+      transform: translateY(-50%);
+      width: 300px;
+      background: var(--light);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow-lg);
+      z-index: 1001;
+      animation: fadeIn 0.3s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     
     #settings-modal.show {
-      display:block;
+      display: block;
     }
     
-    #form-section {
-      background:#fff;
-      padding:1em;
-      border-radius:10px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom:2em;
+    .dark-mode #settings-modal {
+      background: var(--dark);
+      border-color: #334155;
     }
     
-    textarea, input {
-      width:100%;
-      padding:0.6em;
-      border:1px solid #ccc;
-      border-radius:5px;
-      margin:6px 0;
+    #settings-modal h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: var(--primary);
     }
     
-    .post {
-      background:#fff;
-      padding:1em;
-      margin-bottom:1.5em;
-      border-radius:10px;
-      box-shadow:0 2px 10px rgba(0,0,0,0.08);
-      clear:both;
+    .dark-mode #settings-modal h3 {
+      color: var(--accent);
     }
     
-    .dark-mode .post {
-      background:#1e1e1e;
-    }
-    
-    .post-avatar {
-      width:40px;
-      height:40px;
-      border-radius:50%;
-      float:left;
-      margin-right:10px;
-      cursor:pointer;
-    }
-    
-    .reactions {
-      margin:1em 0;
-    }
-    
-    .emoji-btn {
-      font-size:1.4em;
-      margin-right:10px;
-      cursor:pointer;
-    }
-    
-    .emoji-btn sub {
-      vertical-align:super;
-      font-size:0.6em;
-      color:#444;
-      margin-left:3px;
-    }
-    
-    .delete-btn {
-      background:#dc3545;
-      display:block;
-      margin:8px 0;
-    }
-    
-    .delete-btn:hover {
-      background:#c82333;
-    }
-    
-    .comment {
-      background:#f6f9fc;
-      border-left:4px solid #007BFF;
-      margin:8px 0;
-      padding:0.5em;
-      border-radius:4px;
-    }
-    
-    .dark-mode .comment {
-      background:#2a2a2a;
-      border-color:#BB86FC;
+    #settings-modal section {
+      margin-bottom: 25px;
     }
     
     #settings-modal label {
-      display:block;
-      margin:8px 0 4px;
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
     }
     
-    /* Bouton WhatsApp */
+    #settings-modal input[type="file"] {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 8px;
+      border: 1px dashed var(--primary);
+      border-radius: var(--radius-sm);
+    }
+    
+    .cover-preview, .profile-preview {
+      width: 100%;
+      height: 150px;
+      background-color: var(--light-gray);
+      border-radius: var(--radius-sm);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .profile-preview {
+      height: 100px;
+      border-radius: 50%;
+      width: 100px;
+      margin: 0 auto 15px;
+    }
+    
+    .cover-preview img, .profile-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .cover-preview span, .profile-preview span {
+      color: var(--gray);
+      font-size: 14px;
+    }
+    
+    .dark-mode .cover-preview, .dark-mode .profile-preview {
+      background-color: #334155;
+    }
+    
+    /* ===== POST STYLES ===== */
+    .post {
+      background: var(--light);
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    
+    .post:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    
+    .dark-mode .post {
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .post-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      float: left;
+      margin-right: 15px;
+      cursor: pointer;
+      border: 2px solid var(--primary);
+      transition: var(--transition);
+      object-fit: cover;
+    }
+    
+    .post-avatar:hover {
+      transform: scale(1.1);
+      border-color: var(--accent);
+    }
+    
+    .reactions {
+      margin: 20px 0;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .emoji-btn {
+      font-size: 1.6em;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .emoji-btn:hover {
+      transform: scale(1.2);
+    }
+    
+    .emoji-btn sub {
+      vertical-align: super;
+      font-size: 0.7em;
+      color: var(--gray);
+      margin-left: 5px;
+    }
+    
+    .dark-mode .emoji-btn sub {
+      color: var(--light-gray);
+    }
+    
+    .delete-btn {
+      background: var(--danger);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .delete-btn:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+    
+    .comment {
+      background: var(--light-gray);
+      border-left: 4px solid var(--primary);
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      transition: var(--transition);
+    }
+    
+    .comment:hover {
+      transform: translateX(5px);
+    }
+    
+    .dark-mode .comment {
+      background: #334155;
+      border-color: var(--accent);
+    }
+    
+    /* ===== DOWNLOAD BUTTON ===== */
     .download-btn {
       position: fixed;
-      bottom: 15px;
-      left: 15px;
-      padding: 10px 20px;
+      bottom: 30px;
+      left: 30px;
+      padding: 12px 24px;
       background-color: #25D366;
       color: white;
       text-decoration: none;
-      border-radius: 50px;
-      font-size: 15px;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      gap: 10px;
+      transition: var(--transition);
+      z-index: 1000;
     }
     
     .download-btn:hover {
       background-color: #128C7E;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
     
     .download-icon {
-      font-size: 18px;
+      font-size: 20px;
+    }
+    
+    /* ===== UTILITY CLASSES ===== */
+    .card {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 25px;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .dark-mode .card {
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .mt-20 {
+      margin-top: 20px;
+    }
+    
+    .mb-20 {
+      margin-bottom: 20px;
+    }
+    
+    .p-20 {
+      padding: 20px;
+    }
+    
+    /* ===== MESSAGERIE STYLES ===== */
+    .chat-container {
+      display: flex;
+      height: calc(100vh - 100px);
+      max-width: 1200px;
+      margin: 20px auto;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: var(--light);
+    }
+    
+    .dark-mode .chat-container {
+      background: var(--dark);
+    }
+    
+    .contacts-container {
+      width: 30%;
+      border-right: 1px solid var(--light-gray);
+      overflow-y: auto;
+      background: var(--light);
+    }
+    
+    .dark-mode .contacts-container {
+      background: #1e293b;
+      border-color: #334155;
+    }
+    
+    .chat-header {
+      padding: 15px;
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .dark-mode .chat-header {
+      background: var(--accent);
+    }
+    
+    .contact {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid var(--light-gray);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .contact:hover {
+      background: var(--light-gray);
+    }
+    
+    .dark-mode .contact:hover {
+      background: #334155;
+    }
+    
+    .contact-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+    
+    .contact-info {
+      flex: 1;
+    }
+    
+    .contact-name {
+      font-weight: bold;
+    }
+    
+    .contact-status {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    .dark-mode .contact-status {
+      color: var(--light-gray);
+    }
+    
+    .online {
+      color: var(--success);
+    }
+    
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: var(--light);
+    }
+    
+    .dark-mode .chat-messages {
+      background: var(--dark);
+    }
+    
+    .message {
+      max-width: 70%;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: var(--radius);
+      position: relative;
+    }
+    
+    .sent {
+      background: var(--primary);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+    
+    .received {
+      background: var(--light-gray);
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+    
+    .dark-mode .received {
+      background: #334155;
+    }
+    
+    .message-time {
+      font-size: 10px;
+      margin-top: 5px;
+      text-align: right;
+      opacity: 0.8;
+    }
+    
+    .chat-input {
+      display: flex;
+      padding: 15px;
+      background: var(--light);
+      border-top: 1px solid var(--light-gray);
+    }
+    
+    .dark-mode .chat-input {
+      background: #1e293b;
+      border-color: #334155;
+    }
+    
+    .chat-input textarea {
+      flex: 1;
+      resize: none;
+      padding: 10px 15px;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-sm);
+      margin-right: 10px;
+    }
+    
+    .chat-input button {
+      width: auto;
+      padding: 10px 20px;
+    }
+    
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 95%;
+      }
+      
+      .home-nav button {
+        padding: 10px;
+        font-size: 16px;
+      }
+      
+      .home-nav button span {
+        font-size: 10px;
+      }
+      
+      .service-client-icon {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .dark-mode-btn, #settings-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+      
+      .download-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+      
+      #settings-modal {
+        width: 85%;
+        max-width: 300px;
+        right: 15px;
+      }
+      
+      .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 70px);
+      }
+      
+      .contacts-container {
+        width: 100%;
+        height: 40%;
+      }
+      
+      .chat-area {
+        height: 60%;
+      }
     }
   </style>
 </head>
@@ -406,10 +931,26 @@
   <div id="registration-section" class="container">
     <h2>Inscription</h2>
     <form onsubmit="event.preventDefault(); registerUser();">
-      <input type="text" id="full-name" placeholder="Nom complet" required>
-      <input type="email" id="reg-email" placeholder="E-mail" required>
-      <input type="password" id="reg-password" placeholder="Mot de passe" required>
-      <input type="password" id="reg-confirm-password" placeholder="Confirmer mot de passe" required>
+      <div class="form-group">
+        <label for="full-name">Nom complet</label>
+        <input type="text" id="full-name" placeholder="Votre nom complet" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-email">Adresse email</label>
+        <input type="email" id="reg-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-password">Mot de passe</label>
+        <input type="password" id="reg-password" placeholder="Créez un mot de passe" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-confirm-password">Confirmer mot de passe</label>
+        <input type="password" id="reg-confirm-password" placeholder="Confirmez votre mot de passe" required>
+      </div>
+      
       <button type="submit">S'inscrire</button>
     </form>
     <div class="link">
@@ -421,8 +962,16 @@
   <div id="login-section" class="container hidden">
     <h2>Connexion</h2>
     <form onsubmit="event.preventDefault(); loginUser();">
-      <input type="email" id="login-email" placeholder="E-mail" required>
-      <input type="password" id="login-password" placeholder="Mot de passe" required>
+      <div class="form-group">
+        <label for="login-email">Adresse email</label>
+        <input type="email" id="login-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+      </div>
+      
       <button type="submit">Se connecter</button>
     </form>
     <div class="link">
@@ -437,65 +986,144 @@
   <div id="payment-instructions" class="container hidden">
     <h2>Effectuez votre paiement</h2>
     <p>Pour recevoir votre code d'activation, veuillez envoyer <strong>1000 Ar</strong> isambolana amin'ireo laharana manaraka:</p>
-    <ul>
-      <li>0323911654 [RAVELOMANANTSOA Urmin]</li>
-      <li>0384557584 [BEFOTSY Ranjity]</li>
-      <li>0333635111 [RANAIVOSON Angelo]</li>
-    </ul>
-    <button onclick="showPaymentProofForm()">J'ai payé</button>
+    
+    <div class="card mt-20">
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>RAVELOMANANTSOA Urmin</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0323911654</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>BEFOTSY Ranjity</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0384557584</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>RANAIVOSON Angelo</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0333635111</p>
+        </div>
+      </div>
+    </div>
+    
+    <button onclick="showPaymentProofForm()" class="btn-accent">J'ai payé</button>
   </div>
   
   <!-- Formulaire de preuve de paiement -->
   <div id="payment-proof" class="container hidden">
     <h2>Preuve de paiement</h2>
-    <input type="text" id="proof-fullname" placeholder="Nom complet" required>
-    <input type="text" id="proof-phone" placeholder="Numéro de téléphone utilisé" required>
-    <input type="number" id="proof-amount" placeholder="Montant à payer" required>
-    <button onclick="submitPaymentProof()">Envoyer</button>
+    
+    <div class="form-group">
+      <label for="proof-fullname">Nom complet</label>
+      <input type="text" id="proof-fullname" placeholder="Votre nom complet" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="proof-phone">Numéro de téléphone utilisé</label>
+      <input type="text" id="proof-phone" placeholder="Votre numéro de téléphone" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="proof-amount">Montant à payer</label>
+      <input type="number" id="proof-amount" placeholder="Montant envoyé" required>
+    </div>
+    
+    <button onclick="submitPaymentProof()">Envoyer la preuve</button>
   </div>
   
   <!-- Notification de paiement en attente -->
   <div id="pending-verification" class="container hidden">
-    <h2>En attente de vérification</h2>
-    <p>Votre demande de paiement est en attente de vérification par l'administration.</p>
+    <div class="text-center">
+      <i class="fas fa-clock fa-3x mb-20" style="color: var(--accent);"></i>
+      <h2>En attente de vérification</h2>
+      <p>Votre demande de paiement est en attente de vérification par l'administration.</p>
+      <p>Vous recevrez une notification dès que votre compte sera activé.</p>
+    </div>
   </div>
   
   <!-- Notification d'activation -->
   <div id="activation-notification" class="container hidden">
-    <h2>Paiement confirmé</h2>
-    <div id="admin-notification" class="hidden">
-      <p id="admin-notification-text">Vous avez un message de l'admin.</p>
-      <button onclick="viewAdminMessage()">Voir</button>
-      <button onclick="dismissAdminMessage()">Fermer</button>
+    <div class="text-center">
+      <i class="fas fa-check-circle fa-3x mb-20" style="color: var(--success);"></i>
+      <h2>Paiement confirmé</h2>
+      
+      <div id="admin-notification" class="card mt-20 hidden">
+        <p id="admin-notification-text">Vous avez un message de l'admin.</p>
+        <div class="mt-20">
+          <button onclick="viewAdminMessage()" class="btn-accent">Voir le message</button>
+          <button onclick="dismissAdminMessage()" class="btn" style="margin-top: 10px;">Fermer</button>
+        </div>
+      </div>
+      
+      <div class="card mt-20">
+        <p id="activation-code-container">Voici votre code d'activation :</p>
+        <h3 id="user-activation-code" style="letter-spacing: 3px; font-size: 24px; color: var(--primary);">ASA-XXXX-XXXX</h3>
+        <p class="mt-10">Conservez ce code précieusement pour accéder à votre compte.</p>
+      </div>
+      
+      <button onclick="showFinalActivationForm()" class="mt-20">Connectez-vous</button>
     </div>
-    <p id="activation-code-container">Voici votre nouveau code d'activation : <strong id="user-activation-code"></strong></p>
-    <button onclick="showFinalActivationForm()">Connectez-vous</button>
   </div>
   
   <!-- Formulaire final d'activation -->
   <div id="final-activation-form" class="container hidden">
     <h2>Connexion - Activation</h2>
     <form onsubmit="event.preventDefault(); finalLogin();">
-      <input type="email" id="final-email" placeholder="E-mail" required>
-      <input type="password" id="final-password" placeholder="Mot de passe" required>
-      <input type="text" id="final-activation-code" placeholder="Code d'activation" required>
-      <button type="submit">Entrer</button>
+      <div class="form-group">
+        <label for="final-email">Adresse email</label>
+        <input type="email" id="final-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="final-password">Mot de passe</label>
+        <input type="password" id="final-password" placeholder="Votre mot de passe" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="final-activation-code">Code d'activation</label>
+        <input type="text" id="final-activation-code" placeholder="Votre code d'activation" required>
+      </div>
+      
+      <button type="submit">Activer le compte</button>
     </form>
   </div>
   
-  <!-- Page d'accueil (miseho rehefa activation vita) -->
-  <div id="homepage" class="container hidden">
-    <!-- Wrapper horizontal nav fixed top -->
+  <!-- Page d'accueil -->
+  <div id="homepage" class="hidden">
+    <!-- Navigation -->
     <div class="home-nav-wrapper">
       <div class="home-nav">
-        <button onclick="showSection('asaMampiasaVola')">🏘️</button>
-        <button onclick="showSection('asaGratuit')">💼</button>
-        <button onclick="showSection('formationTrading')">🔳</button>
-        <button onclick="showSection('transaction')">💵</button>
+        <button onclick="showSection('asaMampiasaVola')">
+          <i>🏘️</i>
+          <span>Asa Premium</span>
+        </button>
+        <button onclick="showSection('asaGratuit')">
+          <i>💼</i>
+          <span>Asa Gratuit</span>
+        </button>
+        <button onclick="showSection('formationTrading')">
+          <i>🔳</i>
+          <span>Formation</span>
+        </button>
+        <button onclick="showSection('transaction')">
+          <i>💵</i>
+          <span>Transactions</span>
+        </button>
+        <button onclick="showSection('messagerie')">
+          <i>💬</i>
+          <span>Messagerie</span>
+        </button>
       </div>
     </div>
     
-    <!-- Contenu isaky ny section -->
+    <!-- Contenu -->
     <div id="homepage-content">
       <div id="asaMampiasaVola" class="home-section active">
         <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
@@ -509,85 +1137,222 @@
             <h3>Paramètres</h3>
             <section>
               <h4>1. Ajouter votre information</h4>
+              
+              <div class="cover-preview">
+                <span>Photo de couverture</span>
+              </div>
+              <label for="cover-photo-input">Photo de couverture:</label>
+              <input type="file" id="cover-photo-input" accept="image/*">
+              
+              <div class="profile-preview">
+                <span>Photo de profil</span>
+              </div>
               <label for="profile-photo-input">Photo de profil:</label>
               <input type="file" id="profile-photo-input" accept="image/*">
-              <label for="info-name">Nom:</label>
+              
+              <label for="info-name">Nom complet:</label>
               <input type="text" id="info-name" placeholder="Votre nom">
+              
               <label for="info-email">Email:</label>
               <input type="email" id="info-email" placeholder="Votre email">
-              <label for="info-phone">Téléphone:</label>
+              
+              <label for="info-phone">Téléphone (WhatsApp):</label>
               <input type="tel" id="info-phone" placeholder="Votre numéro">
-              <button id="save-info-btn">Enregistrer</button>
+              
+              <label for="info-fb">Lien Facebook:</label>
+              <input type="url" id="info-fb" placeholder="Votre profil Facebook">
+              
+              <label for="info-gender">Genre:</label>
+              <select id="info-gender">
+                <option value="">Sélectionner</option>
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+                <option value="autre">Autre</option>
+              </select>
+              
+              <button id="save-info-btn" class="mt-20">Enregistrer</button>
             </section>
             <hr>
             <section>
-              <h4>2. Mode sombre</h4>
+              <h4>2. Télécharger l'application</h4>
+              <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" target="_blank" class="btn btn-accent mt-10">
+                <i class="fas fa-download"></i> Télécharger APK
+              </a>
+            </section>
+            <hr>
+            <section>
+              <h4>3. Mode sombre</h4>
               <label for="dark-toggle">Activer le mode sombre:</label>
               <input type="checkbox" id="dark-toggle">
             </section>
             <hr>
             <section>
-              <h4>3. Partager</h4>
-              <button id="share-btn">Partager le lien</button>
+              <h4>4. Langue</h4>
+              <label for="language-select">Changer de langue:</label>
+              <select id="language-select">
+                <option value="fr">Français</option>
+                <option value="mg">Malagasy</option>
+                <option value="en">English</option>
+              </select>
+            </section>
+            <hr>
+            <section>
+              <h4>5. Autres</h4>
+              <button id="share-btn" class="btn btn-accent mb-10">
+                <i class="fas fa-share-alt"></i> Partager le lien
+              </button>
+              <button id="logout-btn" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Se déconnecter
+              </button>
             </section>
           </div>
           
           <section id="form-section">
-            <div id="auth-status"></div>
+            <div id="auth-status" class="mb-20"></div>
             <textarea id="description" rows="3" placeholder="Ahoana ny hevitrao?…"></textarea>
-            <input type="url" id="fb-link" placeholder="Lien Facebook…">
-            <button onclick="postData()">Alefa</button>
+            <input type="url" id="fb-link" placeholder="Lien Facebook…" class="mt-10">
+            <button onclick="postData()" class="mt-20">Publier</button>
           </section>
-          <hr>
-          <div id="posts"></div>
+          <hr class="mt-20">
+          <div id="posts" class="mt-20"></div>
         </div>
         
         <!-- Bouton WhatsApp -->
         <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" target="_blank" class="download-btn">
-          <span class="download-icon">📥</span>Télécharger Apk
+          <span class="download-icon">📥</span> Télécharger Apk
         </a>
         
         <div class="section-item">
+          <i class="fas fa-star fa-2x mb-10" style="color: var(--accent);"></i>
           <h3>Asa Premium 1</h3>
           <p>Opportunités professionnelles avec revenus garantis</p>
+          <button class="mt-10">Découvrir</button>
         </div>
         
         <div class="section-item">
+          <i class="fas fa-gem fa-2x mb-10" style="color: var(--accent);"></i>
           <h3>Asa Premium 2</h3>
           <p>Collaborations exclusives pour membres actifs</p>
+          <button class="mt-10">Découvrir</button>
+        </div>
+        
+        <div class="section-item">
+          <i class="fas fa-briefcase fa-2x mb-10" style="color: var(--success);"></i>
+          <h3>Asa Premium 3</h3>
+          <p>Projets à long terme avec rémunération mensuelle</p>
+          <button class="mt-10">Découvrir</button>
+        </div>
+        
+        <div class="section-item">
+          <i class="fas fa-chart-line fa-2x mb-10" style="color: var(--success);"></i>
+          <h3>Asa Premium 4</h3>
+          <p>Partage de bénéfices sur les projets collectifs</p>
+          <button class="mt-10">Découvrir</button>
         </div>
       </div>
       
       <div id="asaGratuit" class="home-section">
         <div class="section-item">
+          <i class="fas fa-tasks fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>Asa Gratuit 1</h3>
           <p>Opportunités sans investissement initial</p>
+          <button class="mt-10">Voir les missions</button>
         </div>
         
         <div class="section-item">
+          <i class="fas fa-users fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>Asa Gratuit 2</h3>
           <p>Missions accessibles à tous les membres</p>
+          <button class="mt-10">Voir les missions</button>
         </div>
       </div>
       
       <div id="formationTrading" class="home-section">
         <div class="section-item">
+          <i class="fas fa-book fa-2x mb-10" style="color: var(--success);"></i>
           <h3>Formation Trading 1</h3>
           <p>Introduction au trading en ligne</p>
+          <button class="mt-10">Commencer</button>
         </div>
         
         <div class="section-item">
+          <i class="fas fa-chart-line fa-2x mb-10" style="color: var(--success);"></i>
           <h3>Formation Trading 2</h3>
           <p>Stratégies avancées pour traders</p>
+          <button class="mt-10">Commencer</button>
         </div>
       </div>
       
       <div id="transaction" class="home-section">
         <div class="section-item">
+          <i class="fas fa-wallet fa-2x mb-10" style="color: var(--accent);"></i>
           <h3>Transaction</h3>
+          <p>Retrait d'argent sécurisé</p>
           <a href="https://demande-du-retrait.vercel.app/" target="_blank">
-            <button>RETRAIT D'ARGENT</button>
+            <button class="mt-10">RETRAIT D'ARGENT</button>
           </a>
+        </div>
+      </div>
+      
+      <!-- Nouvelle section Messagerie -->
+      <div id="messagerie" class="home-section">
+        <div class="chat-container">
+          <div class="contacts-container">
+            <div class="chat-header">Contacts</div>
+            <div class="contact">
+              <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile" class="contact-avatar">
+              <div class="contact-info">
+                <div class="contact-name">Jean Dupont</div>
+                <div class="contact-status online">En ligne</div>
+              </div>
+            </div>
+            <div class="contact">
+              <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Profile" class="contact-avatar">
+              <div class="contact-info">
+                <div class="contact-name">Marie Dubois</div>
+                <div class="contact-status online">En ligne</div>
+              </div>
+            </div>
+            <div class="contact">
+              <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Profile" class="contact-avatar">
+              <div class="contact-info">
+                <div class="contact-name">Paul Martin</div>
+                <div class="contact-status">Hors ligne</div>
+              </div>
+            </div>
+            <div class="contact">
+              <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="Profile" class="contact-avatar">
+              <div class="contact-info">
+                <div class="contact-name">Sophie Bernard</div>
+                <div class="contact-status online">En ligne</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="chat-header">Discussion avec Jean Dupont</div>
+            <div class="chat-messages">
+              <div class="message received">
+                Salut ! Comment vas-tu ?
+                <div class="message-time">10:15</div>
+              </div>
+              <div class="message sent">
+                Bonjour ! Je vais bien, merci. Et toi ?
+                <div class="message-time">10:16</div>
+              </div>
+              <div class="message received">
+                Très bien aussi. As-tu vu les nouvelles opportunités sur le site ?
+                <div class="message-time">10:17</div>
+              </div>
+              <div class="message sent">
+                Oui, le projet Premium 4 a l'air très intéressant !
+                <div class="message-time">10:18</div>
+              </div>
+            </div>
+            <div class="chat-input">
+              <textarea placeholder="Tapez votre message..."></textarea>
+              <button><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -596,8 +1361,7 @@
   <!-- Service client -->
   <a href="https://service-client-asa-en-ligne-site-we.vercel.app/" class="service-client-icon" target="_blank" title="Service Client">
     <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Service Client" />
-  </a>
-  
+  </a>  
   <!-- Firebase + App JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
@@ -607,7 +1371,8 @@
       signInWithEmailAndPassword, 
       sendPasswordResetEmail, 
       onAuthStateChanged, 
-      updateProfile 
+      updateProfile,
+      signOut
     } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
     
     import { 
@@ -651,19 +1416,47 @@
       // Mode sombre
       const theme = localStorage.getItem('theme') || 'light';
       document.body.classList.toggle('dark-mode', theme === 'dark');
-      document.getElementById('dark-toggle').checked = theme === 'dark';
+      if (document.getElementById('dark-toggle')) {
+        document.getElementById('dark-toggle').checked = theme === 'dark';
+      }
       
       // Écouteurs d'événements
-      document.getElementById('settings-btn').addEventListener('click', toggleSettings);
-      document.getElementById('save-info-btn').addEventListener('click', saveUserInfo);
-      document.getElementById('dark-toggle').addEventListener('change', toggleDarkMode);
-      document.getElementById('share-btn').addEventListener('click', shareLink);
+      if (document.getElementById('settings-btn')) {
+        document.getElementById('settings-btn').addEventListener('click', toggleSettings);
+      }
+      
+      if (document.getElementById('save-info-btn')) {
+        document.getElementById('save-info-btn').addEventListener('click', saveUserInfo);
+      }
+      
+      if (document.getElementById('dark-toggle')) {
+        document.getElementById('dark-toggle').addEventListener('change', toggleDarkMode);
+      }
+      
+      if (document.getElementById('share-btn')) {
+        document.getElementById('share-btn').addEventListener('click', shareLink);
+      }
+      
+      if (document.getElementById('logout-btn')) {
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+      }
       
       // Bouton mode sombre
       const toggleButton = document.getElementById('darkModeToggle');
-      toggleButton.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+      }
+      
+      // Prévisualisation des photos
+      document.getElementById('cover-photo-input').addEventListener('change', function(e) {
+        previewImage(e.target, '.cover-preview');
+      });
+      
+      document.getElementById('profile-photo-input').addEventListener('change', function(e) {
+        previewImage(e.target, '.profile-preview');
       });
       
       // État d'authentification
@@ -674,6 +1467,11 @@
             ? `Miarahaba, ${user.displayName || user.email}` 
             : '… mampiasa authentication …';
         }
+        
+        // Charger les informations utilisateur si disponibles
+        if (user) {
+          loadUserInfo(user.uid);
+        }
       });
       
       // Charger les publications
@@ -682,7 +1480,7 @@
       }
     });
     
-     // ----- Fonctions utilitaires -----
+    // ----- Fonctions utilitaires -----
     function toggleSettings() {
       document.getElementById('settings-modal').classList.toggle('show');
     }
@@ -701,37 +1499,108 @@
       }
     }
     
-    async function saveUserInfo() {
-      const file = document.getElementById('profile-photo-input').files[0];
-      if (file && currentUser) {
-        const reader = new FileReader();
-        reader.onload = async e => {
-          const dataURL = e.target.result;
-          localStorage.setItem('profilePhoto', dataURL);
-          await updateProfile(currentUser, { photoURL: dataURL });
-          renderProfileIcon();
-        };
-        reader.readAsDataURL(file);
+    function previewImage(input, previewSelector) {
+      const preview = document.querySelector(previewSelector);
+      const file = input.files[0];
+      const reader = new FileReader();
+      
+      preview.innerHTML = '';
+      
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        preview.appendChild(img);
       }
       
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    async function saveUserInfo() {
+      const coverFile = document.getElementById('cover-photo-input').files[0];
+      const profileFile = document.getElementById('profile-photo-input').files[0];
       const name = document.getElementById('info-name').value;
       const email = document.getElementById('info-email').value;
       const phone = document.getElementById('info-phone').value;
+      const fbLink = document.getElementById('info-fb').value;
+      const gender = document.getElementById('info-gender').value;
       
-      localStorage.setItem('infoName', name);
-      localStorage.setItem('infoEmail', email);
-      localStorage.setItem('infoPhone', phone);
+      // Stocker dans localStorage
+      const userInfo = {
+        name, email, phone, fbLink, gender
+      };
       
-      if (currentUser) {
-        await setDoc(doc(db, 'users', currentUser.uid), { 
-          name, 
-          email, 
-          phone, 
-          updatedAt: serverTimestamp() 
-        }, { merge: true });
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      
+      if (coverFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem('coverPhoto', e.target.result);
+        };
+        reader.readAsDataURL(coverFile);
       }
       
-      alert('Information enregistrée');
+      if (profileFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem('profilePhoto', e.target.result);
+          renderProfileIcon();
+        };
+        reader.readAsDataURL(profileFile);
+      }
+      
+      // Sauvegarder dans Firebase si connecté
+      if (currentUser) {
+        try {
+          await setDoc(doc(db, 'users', currentUser.uid), {
+            name, 
+            email, 
+            phone, 
+            fbLink,
+            gender,
+            updatedAt: serverTimestamp() 
+          }, { merge: true });
+          
+          alert('Information enregistrée avec succès');
+        } catch (error) {
+          console.error("Erreur lors de la sauvegarde:", error);
+          alert('Erreur lors de la sauvegarde');
+        }
+      }
+    }
+    
+    async function loadUserInfo(userId) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          // Mettre à jour le formulaire
+          document.getElementById('info-name').value = userData.name || '';
+          document.getElementById('info-email').value = userData.email || '';
+          document.getElementById('info-phone').value = userData.phone || '';
+          document.getElementById('info-fb').value = userData.fbLink || '';
+          document.getElementById('info-gender').value = userData.gender || '';
+          
+          // Charger les images depuis localStorage
+          const coverPhoto = localStorage.getItem('coverPhoto');
+          const profilePhoto = localStorage.getItem('profilePhoto');
+          
+          if (coverPhoto) {
+            const preview = document.querySelector('.cover-preview');
+            preview.innerHTML = `<img src="${coverPhoto}" alt="Cover">`;
+          }
+          
+          if (profilePhoto) {
+            const preview = document.querySelector('.profile-preview');
+            preview.innerHTML = `<img src="${profilePhoto}" alt="Profile">`;
+            renderProfileIcon();
+          }
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des informations:", error);
+      }
     }
     
     function renderProfileIcon() {
@@ -855,21 +1724,25 @@
     // ----- Affichage des sections -----
     window.showRegistrationSection = function() {
       hideAllSections();
+      document.body.classList.remove('homepage-active');
       document.getElementById("registration-section").classList.remove("hidden");
     };
     
     window.showLoginSection = function() {
       hideAllSections();
+      document.body.classList.remove('homepage-active');
       document.getElementById("login-section").classList.remove("hidden");
     };
     
     window.showPaymentProofForm = function() {
       hideAllSections();
+      document.body.classList.remove('homepage-active');
       document.getElementById("payment-proof").classList.remove("hidden");
     };
     
     window.showFinalActivationForm = function() {
       hideAllSections();
+      document.body.classList.remove('homepage-active');
       document.getElementById("final-activation-form").classList.remove("hidden");
     };
     
@@ -932,7 +1805,8 @@
           hideAllSections();
           
           if (userData.paymentStatus === "confirmed") {
-            document.getElementById("activation-notification").classList.remove("hidden");
+            document.body.classList.add('homepage-active');
+            document.getElementById("homepage").classList.remove("hidden");
             document.getElementById("user-activation-code").textContent = userData.activationCode;
             
             if (userData.adminMessage) {
@@ -1028,7 +1902,7 @@
           const userData = userDoc.data();
           
           if (userData.activationCode === activationCodeInput) {
-            alert("Connexion réussie !");
+            document.body.classList.add('homepage-active');
             hideAllSections();
             document.getElementById("homepage").classList.remove("hidden");
           } else {
@@ -1042,7 +1916,7 @@
       }
     };
     
-    // ----- Navigation ao amin'ny page d'accueil -----
+    //----- Navigation ao amin'ny page d'accueil -----
     window.showSection = function(sectionId) {
       const sections = document.querySelectorAll(".home-section");
       sections.forEach(section => {
@@ -1065,7 +1939,23 @@
         alert("Une erreur s'est produite lors de la récupération des informations.");
       }
     };
+    
+    // ----- Déconnexion -----
+    async function logoutUser() {
+      try {
+        await signOut(auth);
+        hideAllSections();
+        document.body.classList.remove('homepage-active');
+        document.getElementById("login-section").classList.remove("hidden");
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('coverPhoto');
+        localStorage.removeItem('profilePhoto');
+        alert("Vous avez été déconnecté avec succès.");
+      } catch (error) {
+        console.error("Erreur lors de la déconnexion:", error);
+        alert("Erreur lors de la déconnexion.");
+      }
+    }
   </script>
 </body>
 </html>
-    
