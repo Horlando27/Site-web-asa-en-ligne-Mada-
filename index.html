@@ -1949,7 +1949,6 @@
     window.dismissAdminMessage = function() {
       document.getElementById("admin-notification").classList.add("hidden");
     };
-    
     // ----- Activation finale -----
     window.finalLogin = async function() {
       const email = document.getElementById("final-email").value.trim();
@@ -1964,4 +1963,295 @@
         if (userDoc.exists()) {
           const userData = userDoc.data();
           
-          if (userData.activationCode === activation
+          if (userData.activationCode === activationCodeInput) {
+            document.body.classList.add('homepage-active');
+            hideAllSections();
+            document.getElementById("homepage").classList.remove("hidden");
+          } else {
+            alert("Code d'activation incorrect.");
+          }
+        } else {
+          alert("Aucune donnée utilisateur trouvée.");
+        }
+      } catch (error) {
+        alert("Erreur : " + error.message);
+      }
+    };
+    
+    // ----- Navigation ao amin'ny page d'accueil -----
+    window.showSection = function(sectionId) {
+      const sections = document.querySelectorAll(".home-section");
+      sections.forEach(section => {
+        section.classList.toggle("active", section.id === sectionId);
+      });
+    };
+    
+    // ----- Affichage des infos utilisateur -----
+    window.showUserInfo = async function(uid) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', uid));
+        if (userDoc.exists()) {
+          const d = userDoc.data();
+          alert(`Nom: ${d.name || 'Non spécifié'}\nEmail: ${d.email || 'Non spécifié'}\nPhone: ${d.phone || 'Non spécifié'}`);
+        } else {
+          alert('Tsy misy fampahalalana ho an\'ity mpampiasa ity.');
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des informations utilisateur:", error);
+        alert("Une erreur s'est produite lors de la récupération des informations.");
+      }
+    };
+    
+    // ----- Déconnexion -----
+    async function logoutUser() {
+      try {
+        await signOut(auth);
+        hideAllSections();
+        document.body.classList.remove('homepage-active');
+        document.getElementById("login-section").classList.remove("hidden");
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('coverPhoto');
+        localStorage.removeItem('profilePhoto');
+        alert("Vous avez été déconnecté avec succès.");
+      } catch (error) {
+        console.error("Erreur lors de la déconnexion:", error);
+        alert("Erreur lors de la déconnexion.");
+      }
+    }
+    
+    // ===== MESSAGERIE PRIVÉE =====
+    
+    // Charger les contacts (utilisateurs authentifiés)
+    async function loadContacts() {
+      const contactsList = document.getElementById('contacts-list');
+      contactsList.innerHTML = '';
+      
+      try {
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        usersSnapshot.forEach(doc => {
+          const userData = doc.data();
+          const userId = doc.id;
+          
+          // Ne pas afficher l'utilisateur actuel
+          if (userId === currentUser.uid) return;
+          
+          const contact = document.createElement('div');
+          contact.className = 'contact';
+          contact.dataset.userId = userId;
+          
+          // Vérifier le statut en ligne
+          const status = Math.random() > 0.3 ? 'online' : 'offline';
+          
+          contact.innerHTML = `
+            <img src="https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 50)}.jpg" alt="Profile" class="contact-avatar">
+            <div class="contact-info">
+              <div class="contact-name">${userData.fullName || userData.email}</div>
+              <div class="contact-status ${status}">${status === 'online' ? 'En ligne' : 'Hors ligne'}</div>
+            </div>
+            ${unreadMessages[userId] ? `<span class="notification-badge">${unreadMessages[userId]}</span>` : ''}
+          `;
+          
+          contact.addEventListener('click', () => {
+            selectContact(userId, userData.fullName || userData.email);
+          });
+          
+          contactsList.appendChild(contact);
+        });
+      } catch (error) {
+        console.error("Erreur lors du chargement des contacts:", error);
+      }
+    }
+    
+    // Sélectionner un contact
+    function selectContact(userId, userName) {
+      selectedContact = userId;
+      document.getElementById('chat-title').textContent = `Discussion avec ${userName}`;
+      document.getElementById('chat-input').style.display = 'flex';
+      document.getElementById('chat-messages').innerHTML = '';
+      
+      // Afficher "Chargement des messages..."
+      const loading = document.createElement('div');
+      loading.className = 'no-chat-selected';
+      loading.textContent = 'Chargement des messages...';
+      document.getElementById('chat-messages').appendChild(loading);
+      
+      // Charger les messages
+      loadMessages(userId);
+      
+      // Réinitialiser le badge pour ce contact
+      if (unreadMessages[userId]) {
+        unreadMessages[userId] = 0;
+        updateMessagerieBadge();
+        
+        // Mettre à jour l'affichage des contacts
+        const contactElement = document.querySelector(`.contact[data-user-id="${userId}"] .notification-badge`);
+        if (contactElement) {
+          contactElement.textContent = '0';
+          contactElement.classList.add('hidden');
+        }
+      }
+    }
+    
+    // Charger les messages d'une conversation
+    async function loadMessages(userId) {
+      const chatMessages = document.getElementById('chat-messages');
+      chatMessages.innerHTML = '';
+      
+      try {
+        const messagesRef = collection(db, 'users', currentUser.uid, 'privateMessages', userId, 'messages');
+        const q = query(messagesRef, orderBy('timestamp', 'asc'));
+        
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          chatMessages.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const message = doc.data();
+            displayMessage(message);
+          });
+          
+          // Faire défiler vers le bas
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+      } catch (error) {
+        console.error("Erreur lors du chargement des messages:", error);
+      }
+    }
+    
+    // Afficher un message
+    function displayMessage(message) {
+      const chatMessages = document.getElementById('chat-messages');
+      const isCurrentUser = message.senderId === currentUser.uid;
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isCurrentUser ? 'sent' : 'received'}`;
+      
+      const time = new Date(message.timestamp?.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      messageDiv.innerHTML = `
+        ${message.text}
+        <div class="message-time">${time}</div>
+      `;
+      
+      chatMessages.appendChild(messageDiv);
+    }
+    
+    // Envoyer un message
+    async function sendMessage() {
+      if (!selectedContact || !currentUser) return;
+      
+      const messageInput = document.getElementById('message-input');
+      const messageText = messageInput.value.trim();
+      
+      if (!messageText) return;
+      
+      try {
+        // Enregistrer le message pour l'expéditeur
+        await addDoc(collection(db, 'users', currentUser.uid, 'privateMessages', selectedContact, 'messages'), {
+          text: messageText,
+          senderId: currentUser.uid,
+          receiverId: selectedContact,
+          timestamp: serverTimestamp(),
+          read: false
+        });
+        
+        // Enregistrer le message pour le destinataire
+        await addDoc(collection(db, 'users', selectedContact, 'privateMessages', currentUser.uid, 'messages'), {
+          text: messageText,
+          senderId: currentUser.uid,
+          receiverId: selectedContact,
+          timestamp: serverTimestamp(),
+          read: false
+        });
+        
+        // Réinitialiser le champ de saisie
+        messageInput.value = '';
+        
+        // Faire défiler vers le bas
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      } catch (error) {
+        console.error("Erreur lors de l'envoi du message:", error);
+      }
+    }
+    
+    // Écouter les nouveaux messages entrants
+    function listenForMessages() {
+      if (!currentUser) return;
+      
+      const messagesRef = collection(db, 'users', currentUser.uid, 'privateMessages');
+      
+      onSnapshot(messagesRef, (snapshot) => {
+        let totalUnread = 0;
+        
+        snapshot.forEach(doc => {
+          const contactId = doc.id;
+          const messagesRef = collection(db, 'users', currentUser.uid, 'privateMessages', contactId, 'messages');
+          
+          // Compter les messages non lus pour ce contact
+          const q = query(messagesRef, where('read', '==', false));
+          
+          onSnapshot(q, (messagesSnapshot) => {
+            const unreadCount = messagesSnapshot.size;
+            unreadMessages[contactId] = unreadCount;
+            
+             // Mettre à jour le badge pour ce contact
+            const contactElement = document.querySelector(`.contact[data-user-id="${contactId}"]`);
+            if (contactElement) {
+              let badge = contactElement.querySelector('.notification-badge');
+              
+              if (unreadCount > 0) {
+                if (!badge) {
+                  badge = document.createElement('span');
+                  badge.className = 'notification-badge';
+                  contactElement.appendChild(badge);
+                }
+                badge.textContent = unreadCount;
+                badge.classList.remove('hidden');
+              } else if (badge) {
+                badge.classList.add('hidden');
+              }
+            }
+            
+            // Calculer le total des messages non lus
+            totalUnread = Object.values(unreadMessages).reduce((sum, count) => sum + count, 0);
+            updateMessagerieBadge(totalUnread);
+          });
+        });
+      });
+    }
+    
+    // Mettre à jour le badge de la messagerie
+    function updateMessagerieBadge(count) {
+      const badge = document.getElementById('messagerie-badge');
+      
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+        badge.style.animation = 'bounce 1s';
+        setTimeout(() => {
+          badge.style.animation = '';
+        }, 1000);
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+    
+    // Gestion de l'emoji picker
+    function toggleEmojiPicker() {
+      const picker = document.getElementById('emoji-picker');
+      picker.style.display = picker.style.display === 'none' ? 'flex' : 'none';
+    }
+    
+    function insertEmoji(emoji) {
+      const input = document.getElementById('message-input');
+      input.value += emoji;
+      input.focus();
+    }
+  </script>
+</body>
+</html>
+
+    
+    
+    
+    
