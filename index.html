@@ -915,6 +915,575 @@
       z-index: 1000;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    .dark-mode .emoji-picker {
+      background: var(--dark);
+      border-color: #334155;
+    }
     
+    .emoji-item {
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .emoji-item:hover {
+      transform: scale(1.2);
+    }
+    
+    .emoji-toggle {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    .no-chat-selected {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--gray);
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    .dark-mode .no-chat-selected {
+      color: var(--light-gray);
+    }
+    
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 95%;
+      }
+      
+      .home-nav button {
+        padding: 10px;
+        font-size: 16px;
+      }
+      
+      .home-nav button span {
+        font-size: 10px;
+      }
+      
+      .service-client-icon {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .dark-mode-btn, #settings-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+      
+      .download-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+      
+      #settings-modal {
+        width: 85%;
+        max-width: 300px;
+        right: 15px;
+      }
+      
+      .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 70px);
+      }
+      
+      .contacts-container {
+        width: 100%;
+        height: 40%;
+      }
+      
+      .chat-area {
+        height: 60%;
+      }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    .formation-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white !important;
+    text-decoration: none !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 
+        0 4px 6px rgba(37, 117, 252, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.formation-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 7px 14px rgba(37, 117, 252, 0.4),
+        0 3px 6px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #5d0fc5 0%, #1c6df7 100%);
+}
+
+.formation-btn:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 2px 4px rgba(37, 117, 252, 0.4),
+        0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.formation-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.7s ease-in-out;
+}
+
+.formation-btn:hover::after {
+    left: 100%;
+}
+  </style>
+</head>
+<body>
+    
+     <!-- Section d'inscription -->
+  <div id="registration-section" class="container">
+    <h2>Inscription</h2>
+    <form onsubmit="event.preventDefault(); registerUser();">
+      <div class="form-group">
+        <label for="full-name">Nom complet</label>
+        <input type="text" id="full-name" placeholder="Votre nom complet" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-email">Adresse email</label>
+        <input type="email" id="reg-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-password">Mot de passe</label>
+        <input type="password" id="reg-password" placeholder="Créez un mot de passe" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="reg-confirm-password">Confirmer mot de passe</label>
+        <input type="password" id="reg-confirm-password" placeholder="Confirmez votre mot de passe" required>
+      </div>
+      
+      <button type="submit">S'inscrire</button>
+    </form>
+    <div class="link">
+      Déjà un compte ? <a href="#" onclick="showLoginSection()">Connectez-vous</a>
+    </div>
+  </div>
+  
+  <!-- Section de connexion initiale -->
+  <div id="login-section" class="container hidden">
+    <h2>Connexion</h2>
+    <form onsubmit="event.preventDefault(); loginUser();">
+      <div class="form-group">
+        <label for="login-email">Adresse email</label>
+        <input type="email" id="login-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+      </div>
+      
+      <button type="submit">Se connecter</button>
+    </form>
+    <div class="link">
+      <a href="#" onclick="resetPassword()">Mot de passe oublié ?</a>
+    </div>
+    <div class="link">
+      Pas de compte ? <a href="#" onclick="showRegistrationSection()">S'inscrire</a>
+    </div>
+  </div>
+  
+  <!-- Section fampahafantarana fandoavana -->
+  <div id="payment-instructions" class="container hidden">
+    <h2>Effectuez votre paiement</h2>
+    <p>Pour recevoir votre code d'activation, veuillez envoyer <strong>1000 Ar</strong> isambolana amin'ireo laharana manaraka:</p>
+    
+    <div class="card mt-20">
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>RAVELOMANANTSOA Urmin</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0323911654</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>BEFOTSY Ranjity</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0384557584</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="payment-method">
+          <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>RANAIVOSON Angelo</h3>
+          <p class="text-center" style="font-size: 18px; color: var(--primary);">0333635111</p>
+        </div>
+      </div>
+    </div>
+    
+    <button onclick="showPaymentProofForm()" class="btn-accent">J'ai payé</button>
+  </div>
+  
+  <!-- Formulaire de preuve de paiement -->
+  <div id="payment-proof" class="container hidden">
+    <h2>Preuve de paiement</h2>
+    
+    <div class="form-group">
+      <label for="proof-fullname">Nom complet</label>
+      <input type="text" id="proof-fullname" placeholder="Votre nom complet" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="proof-phone">Numéro de téléphone utilisé</label>
+      <input type="text" id="proof-phone" placeholder="Votre numéro de téléphone" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="proof-amount">Montant à payer</label>
+      <input type="number" id="proof-amount" placeholder="Montant envoyé" required>
+    </div>
+    
+    <button onclick="submitPaymentProof()">Envoyer la preuve</button>
+  </div>
+  
+  <!-- Notification de paiement en attente -->
+  <div id="pending-verification" class="container hidden">
+    <div class="text-center">
+      <i class="fas fa-clock fa-3x mb-20" style="color: var(--accent);"></i>
+      <h2>En attente de vérification</h2>
+      <p>Votre demande de paiement est en attente de vérification par l'administration.</p>
+      <p>Vous recevrez une notification dès que votre compte sera activé.</p>
+    </div>
+  </div>
+  
+  <!-- Notification d'activation -->
+  <div id="activation-notification" class="container hidden">
+    <div class="text-center">
+      <i class="fas fa-check-circle fa-3x mb-20" style="color: var(--success);"></i>
+      <h2>Paiement confirmé</h2>
+      
+      <div id="admin-notification" class="card mt-20 hidden">
+        <p id="admin-notification-text">Vous avez un message de l'admin.</p>
+        <div class="mt-20">
+          <button onclick="viewAdminMessage()" class="btn-accent">Voir le message</button>
+          <button onclick="dismissAdminMessage()" class="btn" style="margin-top: 10px;">Fermer</button>
+        </div>
+      </div>
+      
+      <div class="card mt-20">
+        <p id="activation-code-container">Voici votre code d'activation :</p>
+        <h3 id="user-activation-code" style="letter-spacing: 3px; font-size: 24px; color: var(--primary);">ASA-XXXX-XXXX</h3>
+        <p class="mt-10">Conservez ce code précieusement pour accéder à votre compte.</p>
+      </div>
+      
+      <button onclick="showFinalActivationForm()" class="mt-20">Connectez-vous</button>
+    </div>
+  </div>
+  
+  <!-- Formulaire final d'activation -->
+  <div id="final-activation-form" class="container hidden">
+    <h2>Connexion - Activation</h2>
+    <form onsubmit="event.preventDefault(); finalLogin();">
+      <div class="form-group">
+        <label for="final-email">Adresse email</label>
+        <input type="email" id="final-email" placeholder="Votre adresse email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="final-password">Mot de passe</label>
+        <input type="password" id="final-password" placeholder="Votre mot de passe" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="final-activation-code">Code d'activation</label>
+        <input type="text" id="final-activation-code" placeholder="Votre code d'activation" required>
+      </div>
+      
+      <button type="submit">Activer le compte</button>
+    </form>
+  </div>
+  
+  <!-- Page d'accueil -->
+  <div id="homepage" class="hidden">
+    <!-- Navigation -->
+    <div class="home-nav-wrapper">
+      <div class="home-nav">
+        <button onclick="showSection('asaMampiasaVola')">
+          <i>🏘️</i>
+          <span>Asa Premium</span>
+        </button>
+        <button onclick="showSection('asaGratuit')">
+          <i>💼</i>
+          <span>Asa Gratuit</span>
+        </button>
+        <button onclick="showSection('formationTrading')">
+          <i>🔳</i>
+          <span>Formation</span>
+        </button>
+        <button onclick="showSection('transaction')">
+          <i>💵</i>
+          <span>Transactions</span>
+        </button>
+        <button id="messagerie-btn" onclick="showSection('messagerie')">
+          <i>💬</i>
+          <span>Messagerie</span>
+          <span id="messagerie-badge" class="notification-badge hidden">0</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Contenu -->
+    <div id="homepage-content">
+      <div id="asaMampiasaVola" class="home-section active">
+        <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+        
+        <!-- Section Profil, Publication, Reactions & Private Chat -->
+        <div class="home-content">
+          <h1>Asa en Ligne</h1>
+          <i id="settings-btn" class="fa-solid fa-cog" title="Paramètres"></i>
+          
+          <div id="settings-modal">
+            <h3>Paramètres</h3>
+            <section>
+              <h4>1. Ajouter votre information</h4>
+              
+              <div class="cover-preview">
+                <span>Photo de couverture</span>
+              </div>
+              <label for="cover-photo-input">Photo de couverture:</label>
+              <input type="file" id="cover-photo-input" accept="image/*">
+              
+              <div class="profile-preview">
+                <span>Photo de profil</span>
+              </div>
+              <label for="profile-photo-input">Photo de profil:</label>
+              <input type="file" id="profile-photo-input" accept="image/*">
+              
+              <label for="info-name">Nom complet:</label>
+              <input type="text" id="info-name" placeholder="Votre nom">
+              
+              <label for="info-email">Email:</label>
+              <input type="email" id="info-email" placeholder="Votre email">
+              
+              <label for="info-phone">Téléphone (WhatsApp):</label>
+              <input type="tel" id="info-phone" placeholder="Votre numéro">
+              
+              <label for="info-fb">Lien Facebook:</label>
+              <input type="url" id="info-fb" placeholder="Votre profil Facebook">
+              
+              <label for="info-gender">Genre:</label>
+              <select id="info-gender">
+                <option value="">Sélectionner</option>
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+                <option value="autre">Autre</option>
+              </select>
+              
+              <button id="save-info-btn" class="mt-20">Enregistrer</button>
+            </section>
+            <hr>
+            <section>
+              <h4>2. Télécharger l'application</h4>
+              <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" target="_blank" class="btn btn-accent mt-10">
+                <i class="fas fa-download"></i> Télécharger APK
+              </a>
+            </section>
+            <hr>
+            <section>
+              <h4>3. Mode sombre</h4>
+              <label for="dark-toggle">Activer le mode sombre:</label>
+              <input type="checkbox" id="dark-toggle">
+            </section>
+            <hr>
+            <section>
+              <h4>4. Langue</h4>
+              <label for="language-select">Changer de langue:</label>
+              <select id="language-select">
+                <option value="fr">Français</option>
+                <option value="mg">Malagasy</option>
+                <option value="en">English</option>
+              </select>
+            </section>
+            <hr>
+            <section>
+              <h4>5. Autres</h4>
+              <button id="share-btn" class="btn btn-accent mb-10">
+                <i class="fas fa-share-alt"></i> Partager le lien
+              </button>
+              <button id="logout-btn" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Se déconnecter
+              </button>
+            </section>
+          </div>
+          
+          <section id="form-section">
+            <div id="auth-status" class="mb-20"></div>
+            <textarea id="description" rows="3" placeholder="Ahoana ny hevitrao?…"></textarea>
+            <input type="url" id="fb-link" placeholder="Lien Facebook…" class="mt-10">
+            <button onclick="postData()" class="mt-20">Publier</button>
+          </section>
+          <hr class="mt-20">
+          <div id="posts" class="mt-20"></div>
+        </div>
+        
+        <!-- Bouton WhatsApp -->
+        <a href="https://chat.whatsapp.com/LhLJuNd3pX2JOE2hDGkFML?mode=ac_c" target="_blank" class="download-btn">
+          <span class="download-icon">📥</span> Télécharger Apk
+        </a>
+        
+        <div class="section-item">
+          <i class="fas fa-star fa-2x mb-10" style="color: var(--accent);"></i>
+          <h3>Asa Premium 1</h3>
+          <p>Opportunités professionnelles avec revenus garantis</p>
+          <button class="mt-10">Découvrir</button>
+        </div>
+        
+        <div class="section-item">
+          <i class="fas fa-gem fa-2x mb-10" style="color: var(--accent);"></i>
+          <h3>Asa Premium 2</h3>
+          <p>Collaborations exclusives pour membres actifs</p>
+          <button class="mt-10">Découvrir</button>
+        </div>
+      </div>
+      
+      <div id="asaGratuit" class="home-section">
+        <div class="section-item">
+          <i class="fas fa-tasks fa-2x mb-10" style="color: var(--primary);"></i><br><br><br>
+          <h3>Asa Gratuit 1</h3>
+          <p>Opportunités sans investissement initial</p>
+          <a href="https://ipweb-formation.vercel.app/" class="formation-btn">voir la formation</a>
+ 
+        </div>
+        
+        <div class="section-item">
+          <i class="fas fa-users fa-2x mb-10" style="color: var(--primary);"></i>
+          <h3>Asa Gratuit 2</h3>
+          <p>Missions accessibles à tous les membres</p>
+         <a href="">En attente d'installation</a>
+        </div>
+      </div>
+      
+      <div id="formationTrading" class="home-section">
+        <div class="section-item">
+          <i class="fas fa-book fa-2x mb-10" style="color: var(--success);"></i><br><br>
+          <h3>CREER LES COMPTES RÉSEAUX SOCIAUX</h3>
+          <p>Cliquez sur le bouton voir les vidéos</p>
+          <a href="https://les-comptes-r-seaux-sociaux.vercel.app/" class="formation-btn">voir les vidéos</a>
+        </div>
+        
+        <div class="section-item">
+          <i class="fas fa-chart-line fa-2x mb-10" style="color: var(--success);"></i>
+          <h3>CRÉATION DU PORTEFEUILLE CRIPTO</h3>
+          <p>Nous enseignons aussi la création des comptes portefeuilles électroniques comme: METAMASK, BINANCE,... Cliquez sur le bouton voir les vidéos lorsque la vidéo.</p>
+          <button class="mt-10">En attente d'installation </button>
+        </div>
+      </div>
+      
+      <div id="transaction" class="home-section">
+        <div class="section-item">
+          <i class="fas fa-wallet fa-2x mb-10" style="color: var(--accent);"></i><br><br>
+          <h3>Transaction</h3>
+          <p>Retrait d'argent sécurisé</p>
+          
+          <p>Avant de retirer de l'argent, veuillez contacter le service client </p>
+          <a href="https://demande-du-retrait.vercel.app/" target="_blank">
+            <button class="mt-10">RETRAIT D'ARGENT</button>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Nouvelle section Messagerie -->
+      <div id="messagerie" class="home-section">
+        <div class="chat-container">
+          <div class="contacts-container">
+            <div class="chat-header">Contacts</div>
+            <div id="contacts-list"><br><br><br>
+              <!-- La liste des contacts sera générée dynamiquement ici -->
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="chat-header">
+              <span id="chat-title">Messagerie</span>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+              <div class="no-chat-selected"><br><br><br><br>
+                <p>Sélectionnez un contact pour démarrer une conversation</p>
+              </div>
+            </div>
+            <div class="chat-input" id="chat-input" style="display: none;">
+              <button class="emoji-toggle" id="emoji-toggle">😊</button>
+              <textarea id="message-input" placeholder="Tapez votre message..."></textarea>
+              <button id="send-message-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div class="emoji-picker" id="emoji-picker" style="display: none;">
+              <span class="emoji-item" onclick="insertEmoji('😀')">😀</span>
+              <span class="emoji-item" onclick="insertEmoji('😂')">😂</span>
+              <span class="emoji-item" onclick="insertEmoji('😍')">😍</span>
+              <span class="emoji-item" onclick="insertEmoji('👍')">👍</span>
+              <span class="emoji-item" onclick="insertEmoji('👏')">👏</span>
+              <span class="emoji-item" onclick="insertEmoji('🙏')">🙏</span>
+              <span class="emoji-item" onclick="insertEmoji('❤️')">❤️</span>
+              <span class="emoji-item" onclick="insertEmoji('🔥')">🔥</span>
+              <span class="emoji-item" onclick="insertEmoji('💯')">💯</span>
+              <span class="emoji-item" onclick="insertEmoji('😎')">😎</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Service client -->
+  <a href="https://service-client-asa-en-ligne-site-we.vercel.app/" class="service-client-icon" target="_blank" title="Service Client">
+    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.p
       
       
