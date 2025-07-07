@@ -1481,9 +1481,417 @@
       </div>
     </div>
   </div>
-  
   <!-- Service client -->
   <a href="https://service-client-asa-en-ligne-site-we.vercel.app/" class="service-client-icon" target="_blank" title="Service Client">
-    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.p
+    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Service Client" />
+  </a>  
+   <!-- Firebase + App JS -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      sendPasswordResetEmail, 
+      onAuthStateChanged, 
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+    
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      updateDoc, 
+      addDoc, 
+      collection, 
+      deleteDoc, 
+      serverTimestamp, 
+      query, 
+      orderBy, 
+      onSnapshot, 
+      getDocs, 
+      increment 
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+    
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCK4HqGSjYRT2jFNhAvniSWIzhDvEb2qAQ",
+      authDomain: "asa-en-ligne.firebaseapp.com",
+      projectId: "asa-en-ligne",
+      storageBucket: "asa-en-ligne.appspot.com",
+      messagingSenderId: "58359363245",
+      appId: "1:58359363245:web:ca5969776ce9cd86aef824",
+      measurementId: "G-MRVHVWPV71"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // Variables globales
+    let storedAdminMessage = "";
+    let currentUser = null;
+    let selectedContact = null;
+    let unreadMessages = {};
+    
+    // ----- Initialisation -----
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mode sombre
+      const theme = localStorage.getItem('theme') || 'light';
+      document.body.classList.toggle('dark-mode', theme === 'dark');
+      if (document.getElementById('dark-toggle')) {
+        document.getElementById('dark-toggle').checked = theme === 'dark';
+      }
       
+      // Écouteurs d'événements
+      if (document.getElementById('settings-btn')) {
+        document.getElementById('settings-btn').addEventListener('click', toggleSettings);
+      }
       
+      if (document.getElementById('save-info-btn')) {
+        document.getElementById('save-info-btn').addEventListener('click', saveUserInfo);
+      }
+      
+      if (document.getElementById('dark-toggle')) {
+        document.getElementById('dark-toggle').addEventListener('change', toggleDarkMode);
+      }
+      
+      if (document.getElementById('share-btn')) {
+        document.getElementById('share-btn').addEventListener('click', shareLink);
+      }
+      
+      if (document.getElementById('logout-btn')) {
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+      }
+      
+      // Bouton mode sombre
+      const toggleButton = document.getElementById('darkModeToggle');
+      if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+      }
+      
+      // Prévisualisation des photos
+      document.getElementById('cover-photo-input').addEventListener('change', function(e) {
+        previewImage(e.target, '.cover-preview');
+      });
+      
+      document.getElementById('profile-photo-input').addEventListener('change', function(e) {
+        previewImage(e.target, '.profile-preview');
+      });
+      
+      // État d'authentification
+      onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (document.getElementById('auth-status')) {
+          document.getElementById('auth-status').textContent = user 
+            ? `Miarahaba, ${user.displayName || user.email}` 
+            : '… mampiasa authentication …';
+        }
+        
+        // Charger les informations utilisateur si disponibles
+        if (user) {
+          loadUserInfo(user.uid);
+          loadContacts();
+          listenForMessages();
+        }
+      });
+      
+      // Charger les publications
+      if (document.getElementById('posts')) {
+        loadPosts();
+      }
+      
+      // Gestion de la messagerie
+      document.getElementById('emoji-toggle').addEventListener('click', toggleEmojiPicker);
+      document.getElementById('send-message-btn').addEventListener('click', sendMessage);
+      document.getElementById('message-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    });
+    
+    // ----- Fonctions utilitaires -----
+    function toggleSettings() {
+      document.getElementById('settings-modal').classList.toggle('show');
+    }
+    
+    function toggleDarkMode(e) {
+      document.body.classList.toggle('dark-mode', e.target.checked);
+      localStorage.setItem('theme', e.target.checked ? 'dark' : 'light');
+    }
+    
+    function shareLink() {
+      const shareData = { title: document.title, url: location.href };
+      if (navigator.share) {
+        navigator.share(shareData).catch(console.error);
+      } else {
+        prompt('Copiez ce lien pour partager:', location.href);
+      }
+    }
+    
+    function previewImage(input, previewSelector) {
+      const preview = document.querySelector(previewSelector);
+      const file = input.files[0];
+      const reader = new FileReader();
+      
+      preview.innerHTML = '';
+      
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        preview.appendChild(img);
+      }
+      
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    async function saveUserInfo() {
+      const coverFile = document.getElementById('cover-photo-input').files[0];
+      const profileFile = document.getElementById('profile-photo-input').files[0];
+      const name = document.getElementById('info-name').value;
+      const email = document.getElementById('info-email').value;
+      const phone = document.getElementById('info-phone').value;
+      const fbLink = document.getElementById('info-fb').value;
+      const gender = document.getElementById('info-gender').value;
+      
+      // Stocker dans localStorage
+      const userInfo = {
+        name, email, phone, fbLink, gender
+      };
+      
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      
+      if (coverFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem('coverPhoto', e.target.result);
+        };
+        reader.readAsDataURL(coverFile);
+      }
+      
+      if (profileFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem('profilePhoto', e.target.result);
+          renderProfileIcon();
+        };
+        reader.readAsDataURL(profileFile);
+      }
+      
+      // Sauvegarder dans Firebase si connecté
+      if (currentUser) {
+        try {
+          await setDoc(doc(db, 'users', currentUser.uid), {
+            name, 
+            email, 
+            phone, 
+            fbLink,
+            gender,
+            updatedAt: serverTimestamp() 
+          }, { merge: true });
+          
+          alert('Information enregistrée avec succès');
+        } catch (error) {
+          console.error("Erreur lors de la sauvegarde:", error);
+          alert('Erreur lors de la sauvegarde');
+        }
+      }
+    }
+    
+    async function loadUserInfo(userId) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          // Mettre à jour le formulaire
+          document.getElementById('info-name').value = userData.name || '';
+          document.getElementById('info-email').value = userData.email || '';
+          document.getElementById('info-phone').value = userData.phone || '';
+          document.getElementById('info-fb').value = userData.fbLink || '';
+          document.getElementById('info-gender').value = userData.gender || '';
+          
+          // Charger les images depuis localStorage
+          const coverPhoto = localStorage.getItem('coverPhoto');
+          const profilePhoto = localStorage.getItem('profilePhoto');
+          
+          if (coverPhoto) {
+            const preview = document.querySelector('.cover-preview');
+            preview.innerHTML = `<img src="${coverPhoto}" alt="Cover">`;
+          }
+          
+          if (profilePhoto) {
+            const preview = document.querySelector('.profile-preview');
+            preview.innerHTML = `<img src="${profilePhoto}" alt="Profile">`;
+            renderProfileIcon();
+          }
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des informations:", error);
+      }
+    }
+    
+    function renderProfileIcon() {
+      const dataURL = localStorage.getItem('profilePhoto');
+      if (dataURL && document.getElementById('profile-icon')) {
+        document.getElementById('profile-icon').src = dataURL;
+      }
+    }
+    
+    // ----- Gestion des publications -----
+    async function loadPosts() {
+      onSnapshot(query(collection(db, 'publications'), orderBy('createdAt', 'desc')), async snapshot => {
+        const out = document.getElementById('posts');
+        if (!out) return;
+        
+        out.innerHTML = '';
+        for (const docSnap of snapshot.docs) {
+          const data = docSnap.data();
+          const id = docSnap.id;
+          const when = data.createdAt?.toDate().toLocaleString() || '';
+          
+          const avatarURL = data.author === currentUser?.uid && localStorage.getItem('profilePhoto') 
+            ? localStorage.getItem('profilePhoto') 
+            : 'https://via.placeholder.com/40';
+          
+          const avatar = `<img id='profile-icon' class='post-avatar' src='${avatarURL}' onclick="showUserInfo('${data.author}')" title='Voir profil'/>`;
+          
+          const emojis = ['👍','❤️','😂','😮','😢'];
+          const reactHtml = emojis.map(e => {
+            const count = data.reactions?.[e] || 0;
+            return `<span class='emoji-btn' onclick="reactPost('${id}','${e}')">${e}<sub>${count}</sub></span>`;
+          }).join(' ');
+          
+          const cmSnap = await getDocs(query(collection(db, 'publications', id, 'comments'), orderBy('createdAt','asc')));
+          let commentsHtml = '';
+          
+          cmSnap.forEach(c => {
+            const cd = c.data();
+            const tm = cd.createdAt?.toDate().toLocaleString() || '';
+            commentsHtml += `
+              <div class='comment'>
+                <strong>${cd.authorName}</strong><small>${tm}</small>
+                <p>${cd.text}</p>
+              </div>
+            `;
+          });
+          
+          const delBtn = currentUser?.uid === data.author
+            ? `<button class='delete-btn' onclick="deletePost('${id}','${data.author}')">🗑️ Supprimer</button>`
+            : '';
+          
+          out.innerHTML += `
+            <div class='post'>
+              ${avatar}
+              <p><strong>${data.authorName}</strong> <em>${when}</em></p>
+              <p>${data.description}</p>
+              <p><a href='${data.fbLink}' target='_blank'>Facebook Link</a></p>
+              <div class='reactions'>${reactHtml}</div>
+              ${delBtn}
+              <div class='comments'>
+                ${commentsHtml}
+                <textarea id='comment-input-${id}' placeholder='Soraty hevitra…'></textarea>
+                <button onclick="commentOnPost('${id}')">↩️</button>
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+    
+    // ----- Fonctions de publication -----
+    window.postData = async () => {
+      const desc = document.getElementById('description').value.trim();
+      const fbLink = document.getElementById('fb-link').value.trim();
+      
+      if (!currentUser || !desc || !fbLink) {
+        return alert("Fenoy tsara an'ireo saha rehetra!");
+      }
+      
+      await addDoc(collection(db, 'publications'), {
+        author: currentUser.uid,
+        authorName: currentUser.displayName || currentUser.email,
+        description: desc,
+        fbLink,
+        reactions: {},
+        createdAt: serverTimestamp()
+      });
+      
+      document.getElementById('description').value = '';
+      document.getElementById('fb-link').value = '';
+    };
+    
+    window.reactPost = async (postId, emoji) => {
+      await updateDoc(doc(db, 'publications', postId), {
+        [`reactions.${emoji}`]: increment(1)
+      });
+    };
+    
+    window.commentOnPost = async postId => {
+      const ta = document.getElementById(`comment-input-${postId}`);
+      const text = ta.value.trim();
+      
+      if (!currentUser || !text) return;
+      
+      await addDoc(collection(db, 'publications', postId, 'comments'), {
+        author: currentUser.uid,
+        authorName: currentUser.displayName || currentUser.email,
+        text,
+        createdAt: serverTimestamp()
+      });
+      
+      ta.value = '';
+    };
+    
+    window.deletePost = async (postId, authorId) => {
+      if (currentUser?.uid !== authorId) return;
+      if (!confirm("Hofafana ve ity publication ity?")) return;
+      await deleteDoc(doc(db, 'publications', postId));
+    };
+    
+    // ----- Affichage des sections -----
+    window.showRegistrationSection = function() {
+      hideAllSections();
+      document.body.classList.remove('homepage-active');
+      document.getElementById("registration-section").classList.remove("hidden");
+    };
+    
+    window.showLoginSection = function() {
+      hideAllSections();
+      document.body.classList.remove('homepage-active');
+      document.getElementById("login-section").classList.remove("hidden");
+    };
+    
+    window.showPaymentProofForm = function() {
+      hideAllSections();
+      document.body.classList.remove('homepage-active');
+      document.getElementById("payment-proof").classList.remove("hidden");
+    };
+    
+    window.showFinalActivationForm = function() {
+      hideAllSections();
+      document.body.classList.remove('homepage-active');
+      document.getElementById("final-activation-form").classList.remove("hidden");
+    };
+    
+    function hideAllSections() {
+      const sections = [
+        "registration-section", "login-section", "payment-instructions", 
+        "payment-proof", "pending-verification", "activation-notification", 
+        "final-activation-form", "homepage"
+      ];
+      
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+      });
+    }
