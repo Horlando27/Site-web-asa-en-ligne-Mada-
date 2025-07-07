@@ -1009,6 +1009,83 @@
         height: 60%;
       }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .formation-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white !important;
+    text-decoration: none !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 
+        0 4px 6px rgba(37, 117, 252, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.formation-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 7px 14px rgba(37, 117, 252, 0.4),
+        0 3px 6px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #5d0fc5 0%, #1c6df7 100%);
+}
+
+.formation-btn:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 2px 4px rgba(37, 117, 252, 0.4),
+        0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.formation-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.7s ease-in-out;
+}
+
+.formation-btn:hover::after {
+    left: 100%;
+  }
   </style>
 </head>
 <body>
@@ -1071,7 +1148,7 @@
   <!-- Section fampahafantarana fandoavana -->
   <div id="payment-instructions" class="container hidden">
     <h2>Effectuez votre paiement</h2>
-    <p>Pour recevoir votre code d'activation, veuillez envoyer <strong>1000 Ar</strong> isambolana amin'ireo laharana manaraka:</p>
+    <p>Pour recevoir votre code d'activation, veuillez envoyer <strong>1000 Ar</strong> Par mois :</p>
     
     <div class="card mt-20">
       <div class="form-group">
@@ -1329,30 +1406,29 @@
           <i class="fas fa-tasks fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>Asa Gratuit 1</h3>
           <p>Opportunités sans investissement initial</p>
-          <button class="mt-10">Voir les missions</button>
-        </div>
+          <a href="https://ipweb-formation.vercel.app/" class="formation-btn">voir la formation</a>
         
         <div class="section-item">
           <i class="fas fa-users fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>Asa Gratuit 2</h3>
           <p>Missions accessibles à tous les membres</p>
-          <button class="mt-10">Voir les missions</button>
+          <button class="mt-10">En attente d'une nouvelle tâche</button>
         </div>
       </div>
       
       <div id="formationTrading" class="home-section">
         <div class="section-item">
           <i class="fas fa-book fa-2x mb-10" style="color: var(--success);"></i>
-          <h3>Formation Trading 1</h3>
-          <p>Introduction au trading en ligne</p>
-          <button class="mt-10">Commencer</button>
+          <h3>Création des comptes réseaux sociaux</h3>
+          <p>vous pouvez également visiter les vidéos suivants</p>
+          <a href="https://les-comptes-r-seaux-sociaux.vercel.app/" class="formation-btn">voir les Vidéos</a>
         </div>
         
         <div class="section-item">
           <i class="fas fa-chart-line fa-2x mb-10" style="color: var(--success);"></i>
-          <h3>Formation Trading 2</h3>
-          <p>Stratégies avancées pour traders</p>
-          <button class="mt-10">Commencer</button>
+          <h3>COMPTE RÉSEAUX SOCIAUX</h3>
+          <p>Creer simplement et rapidement, client sur cette bouton voir les vidéos </p>
+          <a href="https://les-comptes-r-seaux-sociaux.vercel.app/" class="formation-btn">voir les Vidéos</a>
         </div>
       </div>
       
