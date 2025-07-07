@@ -264,6 +264,7 @@
       flex-direction: column;
       align-items: center;
       gap: 5px;
+      position: relative;
     }
     
     .home-nav button span {
@@ -280,6 +281,23 @@
     .dark-mode .home-nav button:hover, 
     .dark-mode .home-nav button.active {
       background: var(--accent);
+    }
+    
+    /* Badge de notification */
+    .notification-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: var(--danger);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
     
     /* ===== HOME SECTIONS ===== */
@@ -322,6 +340,12 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-10px);}
+      60% {transform: translateY(-5px);}
     }
     
     /* ===== DARK MODE BUTTON ===== */
@@ -755,6 +779,7 @@
       border-bottom: 1px solid var(--light-gray);
       cursor: pointer;
       transition: var(--transition);
+      position: relative;
     }
     
     .contact:hover {
@@ -794,6 +819,10 @@
       color: var(--success);
     }
     
+    .offline {
+      color: var(--gray);
+    }
+    
     .chat-area {
       flex: 1;
       display: flex;
@@ -805,6 +834,8 @@
       padding: 20px;
       overflow-y: auto;
       background: var(--light);
+      display: flex;
+      flex-direction: column;
     }
     
     .dark-mode .chat-messages {
@@ -869,6 +900,60 @@
       padding: 10px 20px;
     }
     
+    .emoji-picker {
+      position: absolute;
+      bottom: 60px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 200px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+      
+      .dark-mode .emoji-picker {
+      background: var(--dark);
+      border-color: #334155;
+    }
+    
+    .emoji-item {
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .emoji-item:hover {
+      transform: scale(1.2);
+    }
+    
+    .emoji-toggle {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    .no-chat-selected {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--gray);
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    .dark-mode .no-chat-selected {
+      color: var(--light-gray);
+    }
+    
     /* ===== RESPONSIVE ADJUSTMENTS ===== */
     @media (max-width: 768px) {
       .container {
@@ -927,7 +1012,8 @@
   </style>
 </head>
 <body>
-  <!-- Section d'inscription -->
+    
+     <!-- Section d'inscription -->
   <div id="registration-section" class="container">
     <h2>Inscription</h2>
     <form onsubmit="event.preventDefault(); registerUser();">
@@ -1116,9 +1202,10 @@
           <i>💵</i>
           <span>Transactions</span>
         </button>
-        <button onclick="showSection('messagerie')">
+        <button id="messagerie-btn" onclick="showSection('messagerie')">
           <i>💬</i>
           <span>Messagerie</span>
+          <span id="messagerie-badge" class="notification-badge hidden">0</span>
         </button>
       </div>
     </div>
@@ -1235,20 +1322,6 @@
           <p>Collaborations exclusives pour membres actifs</p>
           <button class="mt-10">Découvrir</button>
         </div>
-        
-        <div class="section-item">
-          <i class="fas fa-briefcase fa-2x mb-10" style="color: var(--success);"></i>
-          <h3>Asa Premium 3</h3>
-          <p>Projets à long terme avec rémunération mensuelle</p>
-          <button class="mt-10">Découvrir</button>
-        </div>
-        
-        <div class="section-item">
-          <i class="fas fa-chart-line fa-2x mb-10" style="color: var(--success);"></i>
-          <h3>Asa Premium 4</h3>
-          <p>Partage de bénéfices sur les projets collectifs</p>
-          <button class="mt-10">Découvrir</button>
-        </div>
       </div>
       
       <div id="asaGratuit" class="home-section">
@@ -1299,58 +1372,35 @@
         <div class="chat-container">
           <div class="contacts-container">
             <div class="chat-header">Contacts</div>
-            <div class="contact">
-              <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile" class="contact-avatar">
-              <div class="contact-info">
-                <div class="contact-name">Jean Dupont</div>
-                <div class="contact-status online">En ligne</div>
-              </div>
-            </div>
-            <div class="contact">
-              <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Profile" class="contact-avatar">
-              <div class="contact-info">
-                <div class="contact-name">Marie Dubois</div>
-                <div class="contact-status online">En ligne</div>
-              </div>
-            </div>
-            <div class="contact">
-              <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Profile" class="contact-avatar">
-              <div class="contact-info">
-                <div class="contact-name">Paul Martin</div>
-                <div class="contact-status">Hors ligne</div>
-              </div>
-            </div>
-            <div class="contact">
-              <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="Profile" class="contact-avatar">
-              <div class="contact-info">
-                <div class="contact-name">Sophie Bernard</div>
-                <div class="contact-status online">En ligne</div>
-              </div>
+            <div id="contacts-list">
+              <!-- La liste des contacts sera générée dynamiquement ici -->
             </div>
           </div>
           <div class="chat-area">
-            <div class="chat-header">Discussion avec Jean Dupont</div>
-            <div class="chat-messages">
-              <div class="message received">
-                Salut ! Comment vas-tu ?
-                <div class="message-time">10:15</div>
-              </div>
-              <div class="message sent">
-                Bonjour ! Je vais bien, merci. Et toi ?
-                <div class="message-time">10:16</div>
-              </div>
-              <div class="message received">
-                Très bien aussi. As-tu vu les nouvelles opportunités sur le site ?
-                <div class="message-time">10:17</div>
-              </div>
-              <div class="message sent">
-                Oui, le projet Premium 4 a l'air très intéressant !
-                <div class="message-time">10:18</div>
+            <div class="chat-header">
+              <span id="chat-title">Messagerie</span>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+              <div class="no-chat-selected">
+                <p>Sélectionnez un contact pour démarrer une conversation</p>
               </div>
             </div>
-            <div class="chat-input">
-              <textarea placeholder="Tapez votre message..."></textarea>
-              <button><i class="fas fa-paper-plane"></i></button>
+            <div class="chat-input" id="chat-input" style="display: none;">
+              <button class="emoji-toggle" id="emoji-toggle">😊</button>
+              <textarea id="message-input" placeholder="Tapez votre message..."></textarea>
+              <button id="send-message-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div class="emoji-picker" id="emoji-picker" style="display: none;">
+              <span class="emoji-item" onclick="insertEmoji('😀')">😀</span>
+              <span class="emoji-item" onclick="insertEmoji('😂')">😂</span>
+              <span class="emoji-item" onclick="insertEmoji('😍')">😍</span>
+              <span class="emoji-item" onclick="insertEmoji('👍')">👍</span>
+              <span class="emoji-item" onclick="insertEmoji('👏')">👏</span>
+              <span class="emoji-item" onclick="insertEmoji('🙏')">🙏</span>
+              <span class="emoji-item" onclick="insertEmoji('❤️')">❤️</span>
+              <span class="emoji-item" onclick="insertEmoji('🔥')">🔥</span>
+              <span class="emoji-item" onclick="insertEmoji('💯')">💯</span>
+              <span class="emoji-item" onclick="insertEmoji('😎')">😎</span>
             </div>
           </div>
         </div>
@@ -1361,8 +1411,7 @@
   <!-- Service client -->
   <a href="https://service-client-asa-en-ligne-site-we.vercel.app/" class="service-client-icon" target="_blank" title="Service Client">
     <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Service Client" />
-  </a>  
-  <!-- Firebase + App JS -->
+  </a>   <!-- Firebase + App JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
     import { 
@@ -1407,9 +1456,11 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-    // Global variable ho an'ny hafatra admin
+    // Variables globales
     let storedAdminMessage = "";
     let currentUser = null;
+    let selectedContact = null;
+    let unreadMessages = {};
     
     // ----- Initialisation -----
     document.addEventListener('DOMContentLoaded', () => {
@@ -1471,6 +1522,8 @@
         // Charger les informations utilisateur si disponibles
         if (user) {
           loadUserInfo(user.uid);
+          loadContacts();
+          listenForMessages();
         }
       });
       
@@ -1478,6 +1531,16 @@
       if (document.getElementById('posts')) {
         loadPosts();
       }
+      
+      // Gestion de la messagerie
+      document.getElementById('emoji-toggle').addEventListener('click', toggleEmojiPicker);
+      document.getElementById('send-message-btn').addEventListener('click', sendMessage);
+      document.getElementById('message-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
     });
     
     // ----- Fonctions utilitaires -----
@@ -1901,61 +1964,4 @@
         if (userDoc.exists()) {
           const userData = userDoc.data();
           
-          if (userData.activationCode === activationCodeInput) {
-            document.body.classList.add('homepage-active');
-            hideAllSections();
-            document.getElementById("homepage").classList.remove("hidden");
-          } else {
-            alert("Code d'activation incorrect.");
-          }
-        } else {
-          alert("Aucune donnée utilisateur trouvée.");
-        }
-      } catch (error) {
-        alert("Erreur : " + error.message);
-      }
-    };
-    
-    //----- Navigation ao amin'ny page d'accueil -----
-    window.showSection = function(sectionId) {
-      const sections = document.querySelectorAll(".home-section");
-      sections.forEach(section => {
-        section.classList.toggle("active", section.id === sectionId);
-      });
-    };
-    
-    // ----- Affichage des infos utilisateur -----
-    window.showUserInfo = async function(uid) {
-      try {
-        const userDoc = await getDoc(doc(db, 'users', uid));
-        if (userDoc.exists()) {
-          const d = userDoc.data();
-          alert(`Nom: ${d.name || 'Non spécifié'}\nEmail: ${d.email || 'Non spécifié'}\nPhone: ${d.phone || 'Non spécifié'}`);
-        } else {
-          alert('Tsy misy fampahalalana ho an\'ity mpampiasa ity.');
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération des informations utilisateur:", error);
-        alert("Une erreur s'est produite lors de la récupération des informations.");
-      }
-    };
-    
-    // ----- Déconnexion -----
-    async function logoutUser() {
-      try {
-        await signOut(auth);
-        hideAllSections();
-        document.body.classList.remove('homepage-active');
-        document.getElementById("login-section").classList.remove("hidden");
-        localStorage.removeItem('userInfo');
-        localStorage.removeItem('coverPhoto');
-        localStorage.removeItem('profilePhoto');
-        alert("Vous avez été déconnecté avec succès.");
-      } catch (error) {
-        console.error("Erreur lors de la déconnexion:", error);
-        alert("Erreur lors de la déconnexion.");
-      }
-    }
-  </script>
-</body>
-</html>
+          if (userData.activationCode === activation
