@@ -1080,6 +1080,24 @@
 .formation-btn:hover::after {
     left: 100%;
 }
+
+    .btn {
+      display: inline-block;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+    .orange { background-color: #f47d30; }
+    .orange:hover { background-color: #d4621f; }
+    .mvola { background-color: #2c3e50; }
+    .mvola:hover { background-color: #1a252f; }
+    .airtel { background-color: #e60000; }
+    .airtel:hover { background-color: #b20000; }
   </style>
 </head>
 <body>
@@ -1149,15 +1167,22 @@
         <div class="payment-method">
           <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>RAVELOMANANTSOA Urmin</h3>
-          <p class="text-center" style="font-size: 18px; color: var(--primary);">0323911654</p>
+          <a class="btn mvola"
+     href="tel:%23111%2A1%2A2%2A0323911654%2A1000%2A2%2A12%23">
+    Payer MVola
+          </a>
+          
         </div>
       </div>
       
       <div class="form-group">
         <div class="payment-method">
           <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
-          <h3>BEFOTSY Ranjity</h3>
-          <p class="text-center" style="font-size: 18px; color: var(--primary);">0384557584</p>
+          <h3>RAVELOMANANTSOA urmin</h3>
+          <a class="btn orange"
+     href="tel:%23144%2A1%2A1%2A0323911654%2A0323911654%2A1000%23">
+    Payer Orange Money
+          </a>
         </div>
       </div>
       
@@ -1165,7 +1190,10 @@
         <div class="payment-method">
           <i class="fas fa-user fa-2x mb-10" style="color: var(--primary);"></i>
           <h3>RANAIVOSON Angelo</h3>
-          <p class="text-center" style="font-size: 18px; color: var(--primary);">0333635111</p>
+         <a class="btn airtel"
+     href="tel:0333635111">
+    Payer Airtel Money
+         </a>
         </div>
       </div>
     </div>
