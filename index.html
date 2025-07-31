@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1770,11 +1769,6 @@
          <iframe src="https://drive.google.com/file/d/1Idx07q78Hsr4L3Zi9fATeY8Cd3O6GWQB/preview" 
         width="640" height="360" allow="autoplay" allowfullscreen></iframe>
           
-          
-          
-          
-          
-          
           <p>Plateforme Premium pour le développement professionnel et la création de revenus en ligne</p>
           
           <div class="features">
@@ -1921,6 +1915,27 @@
       <div id="asaGratuit" class="home-section">
         <div class="section-item">
           <i class="fas fa-tasks fa-2x mb-10" style="color: var(--accent);"></i><br><br><br>
+          <div class="annonce-container" id="annonce">
+            <button class="annonce-close" onclick="fermerAnnonce()">×</button>
+            <div class="annonce-title">📢 Annonce ho an'ny Mpianatra</div>
+            <div class="annonce-text">
+              Miarahaba atsika rehetra mpianatra ato amin'ny site web Asa en ligne Mada.<br><br>
+
+              Maro anareo no mandefa hafatra mangataka ny hanasiana site d'investissement ato amin'ny fampianarana. Androany aho mandefa ity annonce ity eto aminareo fa vonona tokoa aho handatsaka site d'investissement ho anareo.<br><br>
+
+              Marihina fa tsy misy d'investissement maharitra ela intsony amin'izao. Tsy azo ianteherana tanteraka ireny, nefa mety ahazoana bénéfice betsaka raha mahay mandinika sy manao analyse tsara.<br><br>
+
+              Tsy afaka manome antoka aho fa haharitra mandrakizay ireo site ireo. Kanefa afaka manome signal ho an’ny site izay mety haharitra 6 volana na mihoatra aho. Raha tsy azo idirana intsony ilay site, dia tsy homena eto izany.<br><br>
+
+              Mba ho fanamafisana, tiako ianao haneho hevitra amin'izany. Tsindrio ny bokotra eto ambany ary soraty hoe: <strong><em>"Mety amiko izany"</em></strong>.
+            </div>
+
+            <div class="annonce-buttons">
+              <a class="feedback-link" href="      https://site-web-asa-en-ligne-mada-lfcb.vercel.app/" target="_blank">Haneho hevitra</a>
+              
+            </div>
+          </div>
+          <br><br><br><br><br>
           <h3>IPWEB</h3>
           <p>Opportunités sans investissement initial</p>
           <a href="https://ipweb-formation.vercel.app/" class="formation-btn">Voir la formation 1</a>
@@ -1942,8 +1957,6 @@
           <a href="https://asa-en-ligne-mada-formation.vercel.app/" class="formation-btn">Voir la formation 3</a>
           <a href="https://1-vola-2u91.vercel.app/" class="formation-btn">S'inscrire ici</a>
         </div>
-      </div>
-        
         
         <div class="section-item">
           <i class="fas fa-users fa-2x mb-10" style="color: var(--accent);"></i>
@@ -1952,37 +1965,24 @@
           <a href="https://freecash-knqf.onrender.com/" class="formation-btn">VOIR LA FORMATION 4</a>
           <a href="https://freecash.com/r/K5MZ3" class="formation-btn">S'inscrire </a>
         </div>
-    </div>
-      
-      <div class="section-item">
+        
+        <div class="section-item">
           <i class="fas fa-users fa-2x mb-10" style="color: var(--accent);"></i>
           <h3> JUMP TASK</h3>
           <p>Missions accessibles à tous les membres</p>
           <a href="https://jumptask-1r5r.onrender.com/" class="formation-btn">VOIR LA FORMATION 5</a>
           <a href="https://www.jumptask.io/r/pywocasaxefu" class="formation-btn">S'inscrire</a>
         </div>
-    </div>
-      
         
-
-        
-
-      <div class="section-item">
+        <div class="section-item">
           <i class="fas fa-users fa-2x mb-10" style="color: var(--accent);"></i>
           <h3> BOOST PAGE </h3>
           <p>Missions accessibles à tous les membres</p>
           <a href="https://boost-page-facebook.onrender.com/" class="formation-btn">VOIR L'EXPLICATION</a>
           <a href="https://deposer-et-booster-votre-page-reseaux.onrender.com/" class="formation-btn">VOIR LA FORMATION 6</a>
         </div>
+      </div>
         
-        
-        
-        
-    </div>
-      
-      
-      
-      
       <div id="formationTrading" class="home-section">
         <div class="section-item">
           <i class="fas fa-book fa-2x mb-10" style="color: var(--success);"></i><br><br><br>
@@ -2869,6 +2869,11 @@
       } else {
         badge.classList.add('hidden');
       }
+    }
+
+    // Fonction pour fermer l'annonce
+    function fermerAnnonce() {
+      document.getElementById("annonce").style.display = "none";
     }
   </script>
 </body>
