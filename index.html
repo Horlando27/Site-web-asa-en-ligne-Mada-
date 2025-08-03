@@ -13,6 +13,151 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
   <style>
+    /* ===== ANIMATIONS AJOUTÉES ===== */
+    #welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #121826 0%, #1e293b 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 1s ease;
+    }
+    
+    .welcome-content {
+      text-align: center;
+      padding: 30px;
+      border-radius: 16px;
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      max-width: 90%;
+    }
+    
+    .welcome-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #f9a826;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    
+    .welcome-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #e9ecef;
+    }
+    
+    .loading-bar {
+      width: 300px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 20px auto;
+    }
+    
+    .loading-progress {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(135deg, #f9a826, #ffd166);
+      transition: width 15s linear;
+    }
+    
+    #login-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #121826 0%, #1e293b 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    
+    #login-animation.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .animation-content {
+      text-align: center;
+      max-width: 90%;
+    }
+    
+    .logo-animation {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f9a826, #ffd166);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 30px;
+      animation: pulse 2s infinite;
+    }
+    
+    .logo-animation i {
+      font-size: 60px;
+      color: #121826;
+    }
+    
+    .animation-text {
+      font-size: 2rem;
+      color: #f9a826;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .progress-circle {
+      width: 80px;
+      height: 80px;
+      margin: 20px auto;
+      position: relative;
+    }
+    
+    .circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid transparent;
+      border-top-color: #f9a826;
+      animation: spin 1.5s linear infinite;
+    }
+    
+    .circle:nth-child(2) {
+      border-top-color: #ffd166;
+      animation-delay: 0.2s;
+    }
+    
+    .circle:nth-child(3) {
+      border-top-color: #4361ee;
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
     /* ===== RESET & BASE STYLES ===== */
     * {
       margin: 0;
@@ -2179,11 +2324,37 @@
   </style>
 </head>
 <body>
+  <!-- Animation de bienvenue -->
+  <div id="welcome-screen">
+    <div class="welcome-content">
+      <h1>TONGASOA ETO AMIN'NY FIANARANA ASA EN LIGNE MADA.</h1>
+      <p>Plateforme Premium pour le développement professionnel et la création de revenus en ligne</p>
+      <div class="loading-bar">
+        <div class="loading-progress" id="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animation de connexion -->
+  <div id="login-animation">
+    <div class="animation-content">
+      <div class="logo-animation">
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="animation-text">Connexion en cours...</div>
+      <div class="progress-circle">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Effet de particules -->
   <div class="particles" id="particles"></div>
     
   <!-- Section d'inscription -->
-  <div id="registration-section" class="container">
+  <div id="registration-section" class="container hidden">
     <h2>Inscription</h2>
     <form onsubmit="event.preventDefault(); registerUser();">
       <div class="form-group">
@@ -2791,6 +2962,10 @@
 
     // Initialisation
     document.addEventListener('DOMContentLoaded', () => {
+      // Démarrer la barre de progression
+      const progressBar = document.getElementById('loading-progress');
+      progressBar.style.width = '100%';
+      
       // Créer des particules pour l'arrière-plan
       createParticles();
       
@@ -2863,6 +3038,18 @@
       
       // Charger les emojis
       loadEmojis();
+      
+      // Après 15 secondes, masquer l'écran de bienvenue
+      setTimeout(() => {
+        document.getElementById('welcome-screen').style.opacity = '0';
+        
+        // Après la transition, masquer complètement
+        setTimeout(() => {
+          document.getElementById('welcome-screen').style.display = 'none';
+          // Afficher le formulaire d'inscription
+          document.getElementById("registration-section").classList.remove("hidden");
+        }, 1000);
+      }, 15000);
     });
     
     // Fonction pour créer des particules animées
@@ -2895,6 +3082,20 @@
       }
     }
     
+    // Fonction pour afficher l'animation de connexion
+    function showLoginAnimation() {
+      const loginAnimation = document.getElementById('login-animation');
+      loginAnimation.classList.add('active');
+      
+      // Simuler un chargement de 2 secondes
+      setTimeout(() => {
+        loginAnimation.classList.remove('active');
+        // Afficher la page d'accueil après l'animation
+        document.body.classList.add('homepage-active');
+        document.getElementById("homepage").classList.remove("hidden");
+      }, 2000);
+    }
+
     // ----- Fonctions utilitaires -----
     function toggleSettings() {
       document.getElementById('settings-modal').classList.toggle('show');
@@ -3378,6 +3579,9 @@
       const password = document.getElementById("login-password").value;
       
       try {
+        // Afficher l'animation de connexion
+        showLoginAnimation();
+        
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
         const userDoc = await db.collection("users").doc(user.uid).get();
